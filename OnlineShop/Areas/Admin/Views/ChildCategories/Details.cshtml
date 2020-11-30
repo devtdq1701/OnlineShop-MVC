@@ -1,0 +1,68 @@
+﻿@model Model.EF.ChildCategory
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@section css{
+    <style>
+        .img-custom {
+            width: 200px;
+        }
+    </style>
+}
+@section header{
+    Chi tiết danh mục con
+}
+<div>
+    <hr />
+    <table class="table table-striped">
+        <tr>
+            <th scope="row">Danh mục cha</th>
+            <td>@Html.DisplayFor(model => model.ProductCategory.Title)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.Title)</th>
+            <td>@Html.DisplayFor(model => model.Title)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.MetaTitle)</th>
+            <td>@Html.DisplayFor(model => model.MetaTitle)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.Images)</th>
+            <td>@Html.DisplayFor(model => model.Images)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.ShortDesc)</th>
+            <td>@Html.DisplayFor(model => model.ShortDesc)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.Description)</th>
+            <td>@Html.Raw(Model.Description)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.Order)</th>
+            <td>@Html.DisplayFor(model => model.Order)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.MetaKeywords)</th>
+            <td>@Html.DisplayFor(model => model.MetaKeywords)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.MetaDescription)</th>
+            <td>@Html.DisplayFor(model => model.MetaDescription)</td>
+        </tr>
+        <tr>
+            <th scope="row">@Html.DisplayNameFor(model => model.Status)</th>
+            <td>@Html.DisplayFor(model => model.Status)</td>
+        </tr>
+    </table>
+    <hr />
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", null, new { id = Model.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
+    @Html.ActionLink("Trở lại", "Index", null, new { @class = "btn btn-secondary btn-icon-split btn-padding" })
+</p>

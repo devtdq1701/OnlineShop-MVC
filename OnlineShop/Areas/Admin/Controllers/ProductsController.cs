@@ -21,8 +21,9 @@ namespace OnlineShop.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var query = from p in db.Products
-                        join c in db.ProductCategories on p.CategoryID equals c.ID
-                        select new ProductWithCategory { Product = p, category = c };
+                        join c in db.ChildCategories on p.CategoryID equals c.ID
+                        join b in db.Brands on p.BrandID equals b.ID
+                        select new ProductWithCategory { Product = p, category = c, brand = b };
             var model = query.ToList();
             return View(model);
         }
@@ -54,7 +55,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,Source,UpTopNew,UpTopHot,Detail")] Product product, HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail")] Product product, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,Source,UpTopNew,UpTopHot,Detail")] Product product, HttpPostedFileBase Images)
+        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail")] Product product, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +145,8 @@ namespace OnlineShop.Areas.Admin.Controllers
 
         public void SetViewBag(long? selectedID = null)
         {
-            ViewBag.CategoryID = new SelectList(db.ProductCategories.Where(x => x.Status == true).ToList(), "ID", "Title", selectedID);
+            ViewBag.CategoryID = new SelectList(db.ChildCategories.Where(x => x.Status == true).ToList(), "ID", "Title", selectedID);
+            ViewBag.BrandID = new SelectList(db.Brands.Where(x => x.Status == true).ToList(), "ID", "Title", selectedID);
         }
     }
 }

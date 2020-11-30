@@ -8,6 +8,12 @@ namespace Model.EF
 
     public partial class Brand
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Brand()
+        {
+            Products = new HashSet<Product>();
+        }
+
         public int ID { get; set; }
 
         [Required]
@@ -34,5 +40,8 @@ namespace Model.EF
         public string UpdatedBy { get; set; }
 
         public bool Status { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

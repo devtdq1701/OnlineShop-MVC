@@ -1,4 +1,4 @@
-﻿namespace Model.EF
+namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -15,43 +15,34 @@
         }
 
         [Key]
-        [Required(ErrorMessage = "Cần nhập username")]
-        [StringLength(20, ErrorMessage = "Tối đa 20 kí tự")]
-        [Display(Name = "Tên đăng nhập")]
+        [StringLength(20)]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập password")]
-        [StringLength(100, ErrorMessage = "Tối đa 32 kí tự")]
-        [Display(Name = "Mật khẩu")]
+        [Required]
+        [StringLength(100)]
         public string Password { get; set; }
 
-        [StringLength(32, ErrorMessage = "Tối đa 32 kí tự")]
-        [Display(Name = "Mật khẩu lv2")]
+        [StringLength(32)]
         public string PasswordLevel2 { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập email")]
-        [StringLength(50, ErrorMessage = "Tối đa 50 kí tự")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Email không hợp lệ")]
+        [Required]
+        [StringLength(50)]
         public string Email { get; set; }
 
-        [StringLength(20, ErrorMessage = "Tối đa 20 kí tự")]
-        [Display(Name = "SĐT")]
+        [StringLength(20)]
         public string Mobile { get; set; }
 
-        [StringLength(50, ErrorMessage = "Tối đa 50 kí tự")]
-        [Display(Name = "Tên")]
+        [StringLength(50)]
         public string Name { get; set; }
 
-        [StringLength(50, ErrorMessage = "Tối đa 50 kí tự")]
-        [Display(Name = "Địa chỉ")]
+        [StringLength(50)]
         public string Address { get; set; }
 
-        [Display(Name = "Giới tính")]
         public bool Sex { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
-        [StringLength(20, ErrorMessage = "Tối đa 20 kí tự")]
+        [StringLength(20)]
         public string UpdatedBy { get; set; }
 
         public DateTime? LastLoginDate { get; set; }

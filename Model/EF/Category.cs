@@ -1,4 +1,4 @@
-﻿namespace Model.EF
+namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -18,25 +18,20 @@
 
         [Required]
         [StringLength(250)]
-        [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
+        [Required]
         [StringLength(250)]
-        [Display(Name = "Thẻ tiêu đề")]
         public string MetaTitle { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Ảnh")]
         public string Images { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
-        [Display(Name = "Sắp xếp")]
         public int? Order { get; set; }
 
-        [Display(Name = "ID đa cấp")]
         public long? ParentID { get; set; }
 
         public DateTime? CreatedDate { get; set; }
@@ -50,14 +45,11 @@
         public string UpdatedBy { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Thẻ từ khoá")]
         public string MetaKeywords { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Thẻ mô tả")]
         public string MetaDescription { get; set; }
 
-        [Display(Name = "Trạng thái")]
         public bool? Status { get; set; }
 
         public bool? IsIntroduced { get; set; }

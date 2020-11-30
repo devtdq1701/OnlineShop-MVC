@@ -16,6 +16,7 @@ namespace Model.EF
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<ChildCategory> ChildCategories { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Footer> Footers { get; set; }
         public virtual DbSet<GroupSlide> GroupSlides { get; set; }
@@ -29,6 +30,8 @@ namespace Model.EF
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Slide> Slides { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<UserActivityLog> UserActivityLogs { get; set; }
         public virtual DbSet<UserGroup> UserGroups { get; set; }
@@ -70,6 +73,11 @@ namespace Model.EF
                 .Property(e => e.UpdatedBy)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Brand>()
+                .HasMany(e => e.Products)
+                .WithRequired(e => e.Brand)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Category>()
                 .Property(e => e.MetaTitle)
                 .IsUnicode(false);
@@ -85,6 +93,24 @@ namespace Model.EF
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Newses)
                 .WithRequired(e => e.Category)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChildCategory>()
+                .Property(e => e.MetaTitle)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ChildCategory>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ChildCategory>()
+                .Property(e => e.UpdatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ChildCategory>()
+                .HasMany(e => e.Products)
+                .WithRequired(e => e.ChildCategory)
+                .HasForeignKey(e => e.CategoryID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Feedback>()
@@ -207,9 +233,9 @@ namespace Model.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<ProductCategory>()
-                .HasMany(e => e.Products)
+                .HasMany(e => e.ChildCategories)
                 .WithRequired(e => e.ProductCategory)
-                .HasForeignKey(e => e.CategoryID)
+                .HasForeignKey(e => e.ParentID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
@@ -222,6 +248,10 @@ namespace Model.EF
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.Price)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.OldPrice)
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<Product>()
@@ -251,6 +281,22 @@ namespace Model.EF
 
             modelBuilder.Entity<Slide>()
                 .Property(e => e.GroupID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SystemConfig>()
+                .Property(e => e.UniqueKey)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SystemConfig>()
+                .Property(e => e.Unit)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SystemConfig>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SystemConfig>()
+                .Property(e => e.UpdatedBy)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Tag>()

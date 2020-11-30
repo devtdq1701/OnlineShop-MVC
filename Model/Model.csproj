@@ -54,6 +54,7 @@
     <Compile Include="EF\Album.cs" />
     <Compile Include="EF\Brand.cs" />
     <Compile Include="EF\Category.cs" />
+    <Compile Include="EF\ChildCategory.cs" />
     <Compile Include="EF\Contact.cs" />
     <Compile Include="EF\Feedback.cs" />
     <Compile Include="EF\Footer.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="EF\ProductCategory.cs" />
     <Compile Include="EF\Role.cs" />
     <Compile Include="EF\Slide.cs" />
+    <Compile Include="EF\sysdiagram.cs" />
+    <Compile Include="EF\SystemConfig.cs" />
     <Compile Include="EF\Tag.cs" />
     <Compile Include="EF\User.cs" />
     <Compile Include="EF\UserActivityLog.cs" />

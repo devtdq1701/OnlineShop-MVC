@@ -53,6 +53,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Product.CategoryID)
                         </th>
+                        <td>
+                            @Html.DisplayNameFor(model => model.brand.Title)
+                        </td>
                         <th>
                             @Html.DisplayNameFor(model => model.Product.ViewCount)
                         </th>
@@ -76,6 +79,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.category.Title)
                         </th>
+                        <td>
+                            @Html.DisplayNameFor(model => model.brand.Title)
+                        </td>
                         <th>
                             @Html.DisplayNameFor(model => model.Product.ViewCount)
                         </th>
@@ -84,31 +90,34 @@
                 </tfoot>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Product.Title)
-                        </td>
-                        <td>
-                            <img class="img-fluid img-custom" src="@Url.Content(""+item.Product.Images)" alt="">
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Product.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Product.Quantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.category.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Product.ViewCount)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Sửa", "Edit", new { id = item.Product.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                            @Html.ActionLink("Chi tiết", "Details", null, new { id = item.Product.ID }, new { @class = "btn btn-info btn-icon-split btn-padding" }) |
-                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Product.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Title)
+                    </td>
+                    <td>
+                        <img class="img-fluid img-custom" src="@Url.Content(""+item.Product.Images)" alt="">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.category.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.brand.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ViewCount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.Product.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
+                        @Html.ActionLink("Chi tiết", "Details", null, new { id = item.Product.ID }, new { @class = "btn btn-info btn-icon-split btn-padding" }) |
+                        @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Product.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })
+                    </td>
+                </tr>
                 }
             </table>
         </div>

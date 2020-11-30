@@ -14,11 +14,27 @@
                 $('#txtImage').val(url);
             };
             finder.popup();
-        })
+        });
+        $('#btnSelectNavImage').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#txtNavImage').val(url);
+            };
+            finder.popup();
+        });
+        $('#btnSelectBannerImage').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#txtBannerImage').val(url);
+            };
+            finder.popup();
+        });
     </script>
 }
 @section header{
-    Tạo mới danh mục sản phẩm
+    Tạo mới danh mục cha
 }
 @using (Html.BeginForm())
 {
@@ -42,6 +58,23 @@
                 @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NavImages, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.NavImages, new { htmlAttributes = new { @class = "form-control" }, @id = "txtNavImage" })
+                <button id="btnSelectNavImage">Chọn ảnh</button>
+                @Html.ValidationMessageFor(model => model.NavImages, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.BannerImages, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BannerImages, new { htmlAttributes = new { @class = "form-control" }, @id = "txtBannerImage" })
+                <button id="btnSelectBannerImage">Chọn ảnh</button>
+                @Html.ValidationMessageFor(model => model.BannerImages, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -54,13 +87,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ParentID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
             </div>
         </div>
 

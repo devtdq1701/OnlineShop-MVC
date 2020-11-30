@@ -1,4 +1,4 @@
-﻿namespace Model.EF
+namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -11,33 +11,31 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductCategory()
         {
-            Products = new HashSet<Product>();
+            ChildCategories = new HashSet<ChildCategory>();
         }
 
         public long ID { get; set; }
 
         [Required]
         [StringLength(250)]
-        [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Thẻ tiêu đề")]
         public string MetaTitle { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Ảnh")]
         public string Images { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Mô tả")]
+        public string NavImages { get; set; }
+
+        [StringLength(250)]
+        public string BannerImages { get; set; }
+
+        [StringLength(250)]
         public string Description { get; set; }
 
-        [Display(Name = "Thứ tự")]
         public int? Order { get; set; }
-
-        [Display(Name = "ID đa cấp")]
-        public long? ParentID { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 
@@ -50,17 +48,14 @@
         public string UpdatedBy { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Thẻ từ khoá")]
         public string MetaKeywords { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Thẻ mô tả")]
         public string MetaDescription { get; set; }
 
-        [Display(Name = "Trạng thái")]
         public bool? Status { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ChildCategory> ChildCategories { get; set; }
     }
 }
