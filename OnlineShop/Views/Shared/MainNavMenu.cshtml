@@ -1,0 +1,10 @@
+﻿@model List<Model.EF.Menu>
+
+<div class="main_nav_menu ml-auto">
+    <ul class="standard_dropdown main_nav_dropdown">
+        @foreach (var item in Model)
+        {
+            <li><a href="@item.Link" target="@item.Target">@item.Text<i class="fas fa-chevron-down"></i></a></li>
+        }
+    </ul>
+</div>

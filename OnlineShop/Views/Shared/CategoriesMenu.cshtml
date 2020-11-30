@@ -1,0 +1,7 @@
+﻿@model List<Model.EF.ProductCategory>
+    <ul class="cat_menu">
+        @foreach (var item in Model)
+        {
+            <li><a href="/san-pham/@item.MetaTitle-@item.ID" target="_self">@item.Title<i class="fas fa-chevron-right ml-auto"></i></a></li>
+        }
+    </ul>

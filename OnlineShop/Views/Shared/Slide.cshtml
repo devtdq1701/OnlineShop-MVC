@@ -1,0 +1,13 @@
+﻿@model List<Model.EF.Slide>
+<div class="container">
+
+                <div class="banner-slide owl-carousel owl-theme">
+                    @foreach (var item in Model)
+                    {
+                        <div class="item">
+                            <div><img src="@item.Images" alt=""></div>
+                        </div>
+
+                    }
+                </div>
+            </div>

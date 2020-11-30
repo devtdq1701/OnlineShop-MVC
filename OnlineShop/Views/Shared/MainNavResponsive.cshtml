@@ -1,0 +1,7 @@
+﻿@model List<Model.EF.Menu>
+<ul class="page_menu_nav">
+    @foreach (var item in Model)
+    {
+        <li class="page_menu_item"><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+    }
+</ul>
