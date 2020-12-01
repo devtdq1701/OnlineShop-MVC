@@ -1,13 +1,18 @@
 ﻿@model List<Model.EF.Slide>
 <div class="container">
+    <div class="swiper-container slide-container">
+        <div class="swiper-wrapper">
 
-                <div class="banner-slide owl-carousel owl-theme">
-                    @foreach (var item in Model)
-                    {
-                        <div class="item">
-                            <div><img src="@item.Images" alt=""></div>
-                        </div>
-
-                    }
-                </div>
-            </div>
+            @foreach (var item in Model)
+            {
+                <div class="swiper-slide"><img src="@item.Images" alt=""></div>
+            }
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+    
+</div>

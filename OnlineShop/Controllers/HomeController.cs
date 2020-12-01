@@ -38,14 +38,14 @@ namespace OnlineShop.Controllers
             return PartialView(model);
         }
         [ChildActionOnly]
-        public ActionResult MainNavResponsive()
-        {
-            return PartialView(db.Menus.Where(x => x.GroupID == "top" && x.IsLocked == true).OrderBy(x => x.Order).ToList());
-        }
-        [ChildActionOnly]
         public ActionResult Slide()
         {
             return PartialView(db.Slides.Where(x=>x.Status==true).OrderBy(x => x.Order).ToList());
+        }
+        [ChildActionOnly]
+        public ActionResult HomeCategory()
+        {
+            return PartialView(db.ProductCategories.Where(x => x.Status == true).OrderBy(x => x.Order).ToList());
         }
     }
 }

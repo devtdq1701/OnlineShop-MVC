@@ -1,26 +1,20 @@
 ﻿@model List<Model.EF.Brand>
-<div class="brands">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="block__header"><span class="block__header__title">CÁC THƯƠNG HIỆU</span></div>
-                <div class="brands_slider_container">
+<div class="container block_brands">
+    <div class="block_brands">
+        <div class="block__header"><span class="block__header__title">CÁC THƯƠNG HIỆU</span></div>
 
-                    <!-- Brands Slider -->
+        <!-- Brands Slider -->
 
-                    <div class="owl-carousel owl-theme brands_slider">
-                        @foreach (var item in Model)
-                        {
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="@item.Logo" alt=""></div></div>
-                        }
-                    </div>
-
-                    <!-- Brands Slider Navigation -->
-                    <div class="brands_nav brands_prev"><i class="fas fa-chevron-left"></i></div>
-                    <div class="brands_nav brands_next"><i class="fas fa-chevron-right"></i></div>
-
-                </div>
+        <div class="brands_slider swiper-container">
+            <div class="swiper-wrapper">
+                @foreach (var item in Model)
+                {
+                    <div class="swiper-slide"><img src="@item.Logo" alt=""></div>
+                }
             </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
         </div>
     </div>
 </div>

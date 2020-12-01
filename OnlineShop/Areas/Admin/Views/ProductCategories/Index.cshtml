@@ -27,7 +27,7 @@
     </script>
 }
 @section header{
-    Danh mục sản phẩm
+    Danh sách danh mục sản phẩm
 }
 <p>
     @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success btn-icon-split btn-padding" })
@@ -44,10 +44,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Images)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-
                         <th></th>
                     </tr>
                 <thead>
@@ -59,10 +55,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Images)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-
                         <th></th>
                     </tr>
                 </tfoot>
@@ -74,9 +66,6 @@
                         </td>
                         <td>
                             <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem => item.Images)" alt="">
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
                             @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |

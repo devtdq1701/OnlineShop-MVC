@@ -10,7 +10,7 @@ namespace OnlineShop.Areas.Admin.Models
     {
       
         public Product Product { get; set; }
-        public ChildCategory category { get; set; }
+        public ProductCategory category { get; set; }
         public Brand brand { get; set; }
     }
 }

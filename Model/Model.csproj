@@ -54,7 +54,6 @@
     <Compile Include="EF\Album.cs" />
     <Compile Include="EF\Brand.cs" />
     <Compile Include="EF\Category.cs" />
-    <Compile Include="EF\ChildCategory.cs" />
     <Compile Include="EF\Contact.cs" />
     <Compile Include="EF\Feedback.cs" />
     <Compile Include="EF\Footer.cs" />

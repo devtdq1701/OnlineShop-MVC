@@ -16,7 +16,6 @@ namespace Model.EF
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<ChildCategory> ChildCategories { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Footer> Footers { get; set; }
         public virtual DbSet<GroupSlide> GroupSlides { get; set; }
@@ -93,24 +92,6 @@ namespace Model.EF
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Newses)
                 .WithRequired(e => e.Category)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ChildCategory>()
-                .Property(e => e.MetaTitle)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ChildCategory>()
-                .Property(e => e.CreatedBy)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ChildCategory>()
-                .Property(e => e.UpdatedBy)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ChildCategory>()
-                .HasMany(e => e.Products)
-                .WithRequired(e => e.ChildCategory)
-                .HasForeignKey(e => e.CategoryID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Feedback>()
@@ -233,9 +214,9 @@ namespace Model.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<ProductCategory>()
-                .HasMany(e => e.ChildCategories)
+                .HasMany(e => e.Products)
                 .WithRequired(e => e.ProductCategory)
-                .HasForeignKey(e => e.ParentID)
+                .HasForeignKey(e => e.CategoryID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()

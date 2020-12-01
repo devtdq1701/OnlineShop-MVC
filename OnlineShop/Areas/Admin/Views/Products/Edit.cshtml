@@ -31,7 +31,7 @@
             };
             finder.popup();
         })
-        var areas = Array('txtContent', 'txtDesc');
+        var areas = Array('txtContent', 'txtDesc','txtSpecification');
         $.each(areas, function (i, area) {
             CKEDITOR.replace(area, {
                 customConfig: '/Assets/Admin/js/ckeditor/config.js'
@@ -41,7 +41,7 @@
 }
 
 @section header{
-    Sửa sản phẩm
+    Sửa sản phẩm số @Model.ID
 }
 
 @using (Html.BeginForm())
@@ -67,7 +67,13 @@
                 @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -151,7 +157,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BrandID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.BrandID, ViewBag.BrandID as SelectList, new { @class = "custom-select mr-sm-2" })
+                @Html.DropDownListFor(model => model.BrandID, null, new { @class = "custom-select mr-sm-2" })
                 @Html.ValidationMessageFor(model => model.BrandID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -177,6 +183,28 @@
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" }, id = "txtContent" })
                 @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Guarantee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Guarantee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Guarantee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Video, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Video, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Video, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Specification, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Specification, new { htmlAttributes = new { @class = "form-control" }, id = "txtSpecification" })
+                @Html.ValidationMessageFor(model => model.Specification, "", new { @class = "text-danger" })
             </div>
         </div>
 

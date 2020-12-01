@@ -11,7 +11,7 @@ namespace Model.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductCategory()
         {
-            ChildCategories = new HashSet<ChildCategory>();
+            Products = new HashSet<Product>();
         }
 
         public long ID { get; set; }
@@ -33,6 +33,9 @@ namespace Model.EF
         public string BannerImages { get; set; }
 
         [StringLength(250)]
+        public string ShortDesc { get; set; }
+
+        [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
         public int? Order { get; set; }
@@ -55,7 +58,12 @@ namespace Model.EF
 
         public bool? Status { get; set; }
 
+        public long? ParentID { get; set; }
+
+        [StringLength(60)]
+        public string Style { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChildCategory> ChildCategories { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

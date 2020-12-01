@@ -34,12 +34,15 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            productCategory.Description = WebUtility.HtmlDecode(productCategory.Description);
+            SetViewBag();
             return View(productCategory);
         }
 
         // GET: Admin/ProductCategories/Create
         public ActionResult Create()
         {
+            SetViewBag();
             return View();
         }
 
@@ -47,8 +50,8 @@ namespace OnlineShop.Areas.Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status")] ProductCategory productCategory, HttpPostedFileBase Images)
+        [ValidateInput(false)]
+        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +69,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            SetViewBag();
             return View(productCategory);
         }
 
@@ -82,6 +85,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            SetViewBag(id);
             return View(productCategory);
         }
 
@@ -89,8 +93,8 @@ namespace OnlineShop.Areas.Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status")] ProductCategory productCategory, HttpPostedFileBase Images)
+        [ValidateInput(false)]
+        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +112,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            SetViewBag(productCategory.ID);
             return View(productCategory);
         }
 
@@ -129,6 +134,11 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public void SetViewBag(long? selectedID = null)
+        {
+            ViewBag.ParentID = new SelectList(db.ProductCategories.Where(x => x.Status == true && x.ParentID==null).ToList(), "ID", "Title", selectedID);
+            
         }
     }
 }

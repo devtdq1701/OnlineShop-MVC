@@ -18,6 +18,9 @@ namespace Model.EF
         public string Code { get; set; }
 
         [StringLength(250)]
+        public string FullTitle { get; set; }
+
+        [StringLength(250)]
         public string MetaTitle { get; set; }
 
         public string Description { get; set; }
@@ -59,15 +62,27 @@ namespace Model.EF
 
         public int BrandID { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? UpTopNew { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? UpTopHot { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Detail { get; set; }
 
+        public int? Guarantee { get; set; }
+
+        [StringLength(250)]
+        public string Video { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Specification { get; set; }
+
         public virtual Brand Brand { get; set; }
 
-        public virtual ChildCategory ChildCategory { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

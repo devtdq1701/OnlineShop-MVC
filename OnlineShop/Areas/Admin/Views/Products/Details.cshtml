@@ -11,7 +11,7 @@
     </style>
 }
 @section header{
-    Chi tiết sản phẩm
+    Chi tiết sản phẩm số @Model.ID
 }
     <div>
         <hr />
@@ -23,6 +23,10 @@
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Code)</th>
                 <td>@Html.DisplayFor(model => model.Code)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(model => model.FullTitle)</th>
+                <td>@Html.DisplayFor(model => model.FullTitle)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.MetaTitle)</th>
