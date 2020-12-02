@@ -18,9 +18,6 @@ namespace Model.EF
         public string Code { get; set; }
 
         [StringLength(250)]
-        public string FullTitle { get; set; }
-
-        [StringLength(250)]
         public string MetaTitle { get; set; }
 
         public string Description { get; set; }

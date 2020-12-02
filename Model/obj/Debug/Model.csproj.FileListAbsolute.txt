@@ -33,3 +33,4 @@ D:\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.dll
 D:\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.xml
 D:\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.xml
 D:\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CopyComplete
+D:\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csprojAssemblyReference.cache

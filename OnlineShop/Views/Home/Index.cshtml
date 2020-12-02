@@ -18,6 +18,10 @@
         var swiper = new Swiper('.product-container', {
             slidesPerView: 1,
             spaceBetween: 10,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
             // init: false,
             navigation: {
                 nextEl: '.swiper-button-next',

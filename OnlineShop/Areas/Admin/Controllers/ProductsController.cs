@@ -55,7 +55,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,Code,FullTitle,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,Code,FullTitle,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
+        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
