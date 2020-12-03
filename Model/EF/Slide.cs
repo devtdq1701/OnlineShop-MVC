@@ -1,4 +1,4 @@
-namespace Model.EF
+﻿namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -12,24 +12,31 @@ namespace Model.EF
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Tiêu đề")]
         public string Name { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
         [Required]
         [StringLength(250)]
+        [Display(Name = "Đường dẫn")]
         public string Link { get; set; }
 
         [Required]
         [StringLength(250)]
+        [Display(Name = "Hình ảnh")]
         public string Images { get; set; }
 
+        [Display(Name = "Thứ tự")]
         public int Order { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Loại Slide")]
         public string GroupID { get; set; }
 
+        [Display(Name = "Tình trạng")]
         public bool Status { get; set; }
 
         public virtual GroupSlide GroupSlide { get; set; }

@@ -19,9 +19,9 @@ namespace OnlineShop
                 namespaces: new[] { "OnlineShop.Controllers" }
             );
             routes.MapRoute(
-                name: "Product Category",
-                url: "san-pham/{metatitle}-{id}",
-                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
+                name: "Parent Category",
+                url: "{metatitle}-{id}",
+                defaults: new { controller = "ParentCategory", action = "Category", id = UrlParameter.Optional },
                 namespaces: new[] { "OnlineShop.Controllers" }
             );
             routes.MapRoute(

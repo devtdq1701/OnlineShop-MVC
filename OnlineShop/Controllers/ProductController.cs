@@ -8,14 +8,10 @@ using System.Web.Mvc;
 
 namespace OnlineShop.Controllers
 {
+    [HandleError]
     public class ProductController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
-        public ActionResult Category(long id)
-        {
-            var model = db.ProductCategories.Find(id);
-            return View(model);
-        }
         public ActionResult Detail(long id)
         {
             var model = db.Products.Find(id);

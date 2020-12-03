@@ -34,3 +34,15 @@ D:\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.xml
 D:\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.xml
 D:\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CopyComplete
 D:\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csprojAssemblyReference.cache
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\Model.dll.config
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\Model.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\Model.pdb
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.xml
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csprojAssemblyReference.cache
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CopyComplete
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.pdb

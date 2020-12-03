@@ -3,5 +3,5 @@
 
 @foreach (var item in Model)
 {
-    <div class="header_bottom_item"><a href="@item.Link" target="@item.Target" class="text" style="text-transform: uppercase; margin-left: 0px !important;">@item.Text</a></div>
+    <a href="@item.Link" target="@item.Target">@item.Text</a>
 }

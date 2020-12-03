@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace OnlineShop.Controllers
 {
+    [HandleError]
     public class HomeController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
