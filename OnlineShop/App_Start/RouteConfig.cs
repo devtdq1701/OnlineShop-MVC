@@ -13,6 +13,12 @@ namespace OnlineShop
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                name: "Add Cart",
+                url: "them-gio-hang",
+                defaults: new { controller = "Cart", action = "AddItem", id = UrlParameter.Optional },
+                namespaces: new[] { "OnlineShop.Controllers" }
+            );
+            routes.MapRoute(
                 name: "Product Detail",
                 url: "chi-tiet/{metatitle}-{id}",
                 defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },

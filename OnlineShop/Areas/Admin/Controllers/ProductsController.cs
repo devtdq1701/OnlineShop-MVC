@@ -40,6 +40,8 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            product.Description = WebUtility.HtmlDecode(product.Description);
+            product.Detail = WebUtility.HtmlDecode(product.Detail);
             return View(product);
         }
 

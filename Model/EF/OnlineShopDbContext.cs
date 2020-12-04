@@ -23,6 +23,8 @@ namespace Model.EF
         public virtual DbSet<MenuType> MenuTypes { get; set; }
         public virtual DbSet<News> Newses { get; set; }
         public virtual DbSet<NewsTag> NewsTags { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
@@ -189,6 +191,18 @@ namespace Model.EF
                 .Property(e => e.TagID)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Order>()
+                .Property(e => e.ShipEmail)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.Status)
+                .IsFixedLength();
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(e => e.Price)
+                .HasPrecision(18, 0);
+
             modelBuilder.Entity<Permission>()
                 .Property(e => e.GroupID)
                 .IsUnicode(false);
@@ -211,6 +225,10 @@ namespace Model.EF
 
             modelBuilder.Entity<ProductCategory>()
                 .Property(e => e.UpdatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProductCategory>()
+                .Property(e => e.Style)
                 .IsUnicode(false);
 
             modelBuilder.Entity<ProductCategory>()

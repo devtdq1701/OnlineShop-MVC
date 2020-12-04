@@ -63,6 +63,8 @@
     <Compile Include="EF\News.cs" />
     <Compile Include="EF\NewsTag.cs" />
     <Compile Include="EF\OnlineShopDbContext.cs" />
+    <Compile Include="EF\Order.cs" />
+    <Compile Include="EF\OrderDetail.cs" />
     <Compile Include="EF\Permission.cs" />
     <Compile Include="EF\Photo.cs" />
     <Compile Include="EF\Product.cs" />
