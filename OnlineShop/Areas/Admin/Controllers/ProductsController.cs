@@ -71,6 +71,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                     percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
                 }
                 DateTime now = DateTime.Now;
+                product.ViewCount = 0;
                 product.CreatedDate = now;
                 product.CreatedBy = Session["username"].ToString();
                 product.MetaTitle = ConvertToSEO.Convert(product.Title);
