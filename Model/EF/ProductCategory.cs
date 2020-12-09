@@ -47,14 +47,18 @@
         [Display(Name = "Thứ tự")]
         public int? Order { get; set; }
 
+        [Display(Name = "Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(20)]
+        [Display(Name = "Người tạo")]
         public string CreatedBy { get; set; }
 
+        [Display(Name = "Ngày sửa")]
         public DateTime? UpdatedDate { get; set; }
 
         [StringLength(20)]
+        [Display(Name = "Người sửa")]
         public string UpdatedBy { get; set; }
 
         [StringLength(250)]

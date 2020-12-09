@@ -351,3 +351,7 @@ C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\obj\Debug\Onli
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\obj\Debug\OnlineShop.csproj.CopyComplete
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\obj\Debug\OnlineShop.dll
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\obj\Debug\OnlineShop.pdb
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\bin\PagedList.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\bin\PagedList.Mvc.dll
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\bin\PagedList.xml
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\OnlineShop\bin\PagedList.Mvc.xml

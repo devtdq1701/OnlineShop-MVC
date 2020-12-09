@@ -29,5 +29,8 @@ namespace Model.EF
 
         [StringLength(10)]
         public string Status { get; set; }
+
+        [Display(Name = "Ghi chú")]
+        public string Note { get; set; }
     }
 }

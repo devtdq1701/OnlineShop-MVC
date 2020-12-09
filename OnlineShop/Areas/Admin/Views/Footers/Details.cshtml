@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <th scope="row">@Html.DisplayNameFor(model => model.ContentHtml)</th>
-            <td>@Html.DisplayFor(model => model.ContentHtml)</td>
+            <td>@Html.Raw(Model.ContentHtml)</td>
         </tr>
         <tr>
             <th scope="row">@Html.DisplayNameFor(model => model.Status)</th>

@@ -16,6 +16,9 @@ namespace Model.EF
         public string Title { get; set; }
 
         [StringLength(250)]
+        public string ShortTitle { get; set; }
+
+        [StringLength(250)]
         public string MetaTitle { get; set; }
 
         public string Description { get; set; }
@@ -32,7 +35,7 @@ namespace Model.EF
         [StringLength(250)]
         public string MetaDescription { get; set; }
 
-        public int Status { get; set; }
+        public bool? Status { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 
@@ -44,6 +47,7 @@ namespace Model.EF
         [StringLength(50)]
         public string UpdatedBy { get; set; }
 
+        [Display(Name = "Ngày up")]
         public DateTime? PublishedDate { get; set; }
 
         [StringLength(50)]
@@ -56,9 +60,15 @@ namespace Model.EF
         [StringLength(50)]
         public string Source { get; set; }
 
+        [Display(Name = "Up New")]
         public DateTime? UpTopNew { get; set; }
 
+        [Display(Name = "Up Hot")]
         public DateTime? UpTopHot { get; set; }
+
+
+        [StringLength(250)]
+        public string RelatedProduct { get; set; }
 
         public virtual Category Category { get; set; }
     }

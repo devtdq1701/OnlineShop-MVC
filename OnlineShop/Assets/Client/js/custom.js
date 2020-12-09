@@ -16,6 +16,7 @@ jQuery('.quantity').each(function () {
         }
         spinner.find("input").val(newVal);
         spinner.find("input").trigger("change");
+        changeQty();
     });
 
     btnDown.click(function () {
@@ -27,6 +28,20 @@ jQuery('.quantity').each(function () {
         }
         spinner.find("input").val(newVal);
         spinner.find("input").trigger("change");
+        changeQty();
     });
 
 });
+
+
+//function changeQty() {
+//    var pid = $('#qtyInput').attr('data-id');
+//    var quantity = $('#qtyInput').val();
+//    var link = "/them-gio-hang?id=" + pid + "&quantity=" + quantity;
+//    $("#add-to-cart").attr("href", link);
+//};
+
+//$('#add-to-cart').off('click').on('click', function () {
+//    $('#success-alert').removeClass('hide');
+//    $('#success-alert').delay(1000).slideUp(500);
+//});

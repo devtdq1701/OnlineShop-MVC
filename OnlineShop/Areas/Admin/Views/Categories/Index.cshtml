@@ -76,7 +76,7 @@
                             @Html.DisplayFor(modelItem => item.Title)
                         </td>
                         <td>
-                            <img class="img-fluid img-custom" src="@Url.Content(""+item.Images)" alt="">
+                            <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem => item.Images)" alt="">
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Description)

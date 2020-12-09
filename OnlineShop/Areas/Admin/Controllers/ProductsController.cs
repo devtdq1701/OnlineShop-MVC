@@ -36,12 +36,16 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
+            Brand brand = db.Brands.Find(product.BrandID);
+            ProductCategory productCategory = db.ProductCategories.Find(product.CategoryID);
             if (product == null)
             {
                 return HttpNotFound();
             }
             product.Description = WebUtility.HtmlDecode(product.Description);
             product.Detail = WebUtility.HtmlDecode(product.Detail);
+            ViewBag.BrandName = brand.Title;
+            ViewBag.CategoryName = productCategory.Title;
             return View(product);
         }
 
@@ -57,26 +61,25 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
         {
             if (ModelState.IsValid)
             {
-                if (Images != null)
+                long percent = 0;
+                if (product.OldPrice.HasValue)
                 {
-                    string path = Path.Combine(Server.MapPath("~/Assets/Admin/img"), Path.GetFileName(Images.FileName));
-                    Images.SaveAs(path);
-                    product.Images = Images.FileName;
+                    percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
                 }
                 DateTime now = DateTime.Now;
                 product.CreatedDate = now;
                 product.CreatedBy = Session["username"].ToString();
                 product.MetaTitle = ConvertToSEO.Convert(product.Title);
+                product.PercentSale = percent;
                 db.Products.Add(product);
                 db.SaveChanges();
                 SetAlert("Thêm product thành công", "success");
                 return RedirectToAction("Index");
             }
-            SetViewBag();
             return View(product);
         }
 
@@ -101,21 +104,21 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification")] Product product, HttpPostedFileBase Images)
+        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopNew,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
         {
             if (ModelState.IsValid)
             {
-                if (Images != null)
-                {
-                    string path = Path.Combine(Server.MapPath("~/Assets/Admin/img"), Path.GetFileName(Images.FileName));
-                    Images.SaveAs(path);
-                    product.Images = Images.FileName;
-                }
                 db.Entry(product).State = EntityState.Modified;
+                long percent = 0;
+                if (product.OldPrice.HasValue)
+                {
+                    percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
+                }
                 DateTime now = DateTime.Now;
                 product.UpdatedDate = now;
                 product.UpdatedBy = Session["username"].ToString();
                 product.MetaTitle = ConvertToSEO.Convert(product.Title);
+                product.PercentSale = percent;
                 db.SaveChanges();
                 SetAlert("Sửa product thành công", "success");
                 return RedirectToAction("Index");

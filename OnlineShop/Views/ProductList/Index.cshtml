@@ -1,0 +1,166 @@
+﻿@model PagedList.IPagedList<Model.EF.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section title{
+    <title>@ViewBag.ShortDesc</title>
+}
+@section css {
+    <style>
+        .select ul li.option {
+            z-index: 1;
+            padding: 5px;
+            display: none;
+            list-style: none;
+        }
+
+        .select ul li:first-child {
+            display: block;
+        }
+
+        .select ul li {
+            cursor: default;
+        }
+    </style>
+}
+@section js {
+    <script>
+        $("ul").on("click", ".init", function () {
+            $(this).closest("ul").children('li:not(.init)').toggle();
+        });
+
+        var allOptions = $("ul").children('li:not(.init)');
+        $("ul").on("click", "li:not(.init)", function () {
+            allOptions.removeClass('selected');
+            $(this).addClass('selected');
+            $("ul").children('.init').html($(this).html());
+            allOptions.toggle();
+        });
+    </script>
+    <script>
+        var swiper = new Swiper('.product-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            //autoplay: {
+            //    delay: 2500,
+            //    disableOnInteraction: false,
+            //},
+            // init: false,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 0,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 0,
+                },
+            }
+        });
+    </script>
+}
+<div class="category">
+    <div class="breadcrumb">
+        <ul class="breadcrumb__list">
+            <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+            <li><a href="/">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+            <li><a href="/san-pham/@ViewBag.CategoryMeta-@ViewBag.CategoryID">@ViewBag.CategoryName</a></li>
+        </ul>
+    </div>
+    <div class="banner banner--list__cat"></div>
+    <div class="mb-button-filter hide-pc">
+        <i class="fal fa-filter"></i>Lọc Sản Phẩm
+    </div>
+    <div id="content" class="category__content">
+        <!---->
+        <div class="category__product-list">
+            <div class="list-header">
+                <div class="list-header__top">
+                    <div class="category-name">@ViewBag.CategoryName<span>(@(Model.Count()) sản phẩm)</span></div>
+                    <div class="category-sort">
+                        Sắp xếp theo:
+                        <ul id="input-sort" class="form-control">
+                            <li class="init">[SELECT]</li>
+                            <li data-value="value 1">Option 1</li>
+                            <li data-value="value 2">Option 2</li>
+                            <li data-value="value 3">Option 3</li>
+                            <li data-value="Mới nhất">@Html.ActionLink("Mới nhất", "Index", new { Sorting_Order = ViewBag.SortingDate }) </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="product-list">
+                @foreach (var item in Model)
+                {
+                    var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                    long percent = 0;
+                    string myClass = "hide";
+                    string oldPrice = "";
+                    if (item.OldPrice.HasValue)
+                    {
+                        oldPrice = item.OldPrice.Value.ToString("N0") + "đ";
+                        percent = Convert.ToInt64((item.OldPrice - item.Price) / item.OldPrice * 100);
+                    }
+                    <div class="product">
+                        @if (percent != 0)
+                        {
+                            myClass = "percent";
+                        }
+                        <div class="@myClass"><span>@(percent)%</span></div>
+                        <div class="product__thumb">
+                            <a class="product__link" href="@url"><img src="@item.Images" alt=""></a>
+                        </div>
+                        <div class="product__bottom">
+                            <div class="product__title">
+                                <a href="@url" class="product__link">@item.Title</a>
+                            </div>
+                            <div class="product__rate">
+                                <div class="rate__star">
+                                    <i class="fas fa-star "></i>
+                                    <i class="fas fa-star "></i>
+                                    <i class="fas fa-star "></i>
+                                    <i class="fas fa-star "></i>
+                                    <i class="fas fa-star "></i>
+                                </div>
+                                <div class="rate__text">0 đánh giá</div>
+                            </div>
+                            <div class="product__price">
+                                <span class="price__selling">@(item.Price.Value.ToString("N0")) đ</span>
+                                <span class="price__old">@oldPrice</span>
+                            </div>
+                            <button class="add-to-cart" @*href="/them-gio-hang?id=@item.ID&quantity=1"*@ data-id="@item.ID">Mua ngay</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="category__paginate">
+                @*<ul class="pagination">
+                        <li class="active"><span>1</span></li>
+                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2">2</a></li>
+                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2"><i aria-hidden="true" class="far fa-angle-right"></i></a></li>
+                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2"><i aria-hidden="true" class="far fa-angle-double-right"></i></a></li>
+                    </ul>*@
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            </div>
+        </div>
+    </div>
+    <div class="category__description">
+        <div class="title">@ViewBag.CategoryName</div>
+        <div class="description collapse">
+            @Html.Raw(ViewBag.Desc)
+        </div>
+        @*<div class="readmore">Xem thêm </div>*@
+    </div>
+    @{Html.RenderAction("RecentProduct", "Home"); }
+</div>

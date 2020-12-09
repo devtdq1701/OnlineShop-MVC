@@ -49,34 +49,35 @@
         [StringLength(250)]
         public string MetaDescription { get; set; }
 
-        [Display(Name = "Số lượng trong kho")]
+        [Display(Name = "Số lượng")]
         public int Quantity { get; set; }
 
+        [Display(Name = "Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(10)]
+        [Display(Name = "Người tạo")]
         public string CreatedBy { get; set; }
 
+        [Display(Name = "Ngày sửa")]
         public DateTime? UpdatedDate { get; set; }
 
         [StringLength(10)]
+        [Display(Name = "Người sửa")]
         public string UpdatedBy { get; set; }
 
+        [Display(Name = "Loại hàng")]
         public long CategoryID { get; set; }
 
         [Display(Name = "Lượt xem")]
-        public int? ViewCount { get; set; }
+        public long? ViewCount { get; set; }
 
         [Display(Name = "Nhãn hàng")]
         public int BrandID { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         [Display(Name = "Up New")]
         public DateTime? UpTopNew { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         [Display(Name = "Up Hot")]
         public DateTime? UpTopHot { get; set; }
 
@@ -95,6 +96,7 @@
         [Display(Name = "Thông sô")]
         public string Specification { get; set; }
 
+        public long? PercentSale { get; set; }
         public virtual Brand Brand { get; set; }
 
         public virtual ProductCategory ProductCategory { get; set; }

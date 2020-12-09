@@ -31,6 +31,7 @@ namespace Model.EF
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Slide> Slides { get; set; }
+        public virtual DbSet<Social> Socials { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<SystemConfig> SystemConfigs { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
@@ -280,6 +281,14 @@ namespace Model.EF
 
             modelBuilder.Entity<Slide>()
                 .Property(e => e.GroupID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Social>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Social>()
+                .Property(e => e.UpdatedBy)
                 .IsUnicode(false);
 
             modelBuilder.Entity<SystemConfig>()

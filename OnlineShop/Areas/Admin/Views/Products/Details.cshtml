@@ -11,7 +11,7 @@
     </style>
 }
 @section header{
-    Chi tiết sản phẩm số @Model.ID
+    Chi tiết sản phẩm: @Model.Title
 }
     <div>
         <hr />
@@ -30,15 +30,15 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Images)</th>
-                <td><img class="img-fluid img-custom" src="@Url.Content(""+Html.DisplayFor(model => model.Images))" alt=""></td>
+                <td><img class="img-fluid img-custom" src="@Html.DisplayFor(model => model.Images)" alt=""></td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Images2nd)</th>
-                <td><img class="img-fluid img-custom" src="@Url.Content(""+Html.DisplayFor(model => model.Images2nd))" alt=""></td>
+                <td><img class="img-fluid img-custom" src="@Html.DisplayFor(model => model.Images2nd)" alt=""></td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Images3rd)</th>
-                <td><img class="img-fluid img-custom" src="@Url.Content(""+Html.DisplayFor(model => model.Images3rd))" alt=""></td>
+                <td><img class="img-fluid img-custom" src="@Html.DisplayFor(model => model.Images3rd)" alt=""></td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Description)</th>
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.CategoryID)</th>
-                <td>@Html.DisplayFor(model => model.CategoryID)</td>
+                <td>@ViewBag.CategoryName</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Quantity)</th>
@@ -94,7 +94,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.BrandID)</th>
-                <td>@Html.DisplayFor(model => model.BrandID)</td>
+                <td>@ViewBag.BrandName</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.UpTopNew)</th>

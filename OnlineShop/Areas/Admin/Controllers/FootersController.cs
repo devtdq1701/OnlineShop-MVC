@@ -32,6 +32,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            footer.ContentHtml = WebUtility.HtmlDecode(footer.ContentHtml);
             return View(footer);
         }
 

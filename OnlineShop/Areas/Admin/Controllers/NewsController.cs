@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Model.EF;
+using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -48,13 +49,14 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Description,ContentHtml,Images,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,PublishedDate,RelatedNewes,CategoryID,ViewCount,Source,UpTopNew,UpTopHot")] News news)
+        public ActionResult Create([Bind(Include = "ID,Title,ShortTitle,MetaTitle,Description,ContentHtml,Images,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,PublishedDate,RelatedNewes,CategoryID,ViewCount,Source,UpTopNew,UpTopHot,RelatedProduct")] News news)
         {
             if (ModelState.IsValid)
             {
                 DateTime now = DateTime.Now;
                 news.CreatedDate = now;
                 news.CreatedBy = Session["username"].ToString();
+                news.MetaTitle = ConvertToSEO.Convert(news.ShortTitle);
                 db.Newses.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -85,7 +87,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Description,ContentHtml,Images,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,PublishedDate,RelatedNewes,CategoryID,ViewCount,Source,UpTopNew,UpTopHot")] News news)
+        public ActionResult Edit([Bind(Include = "ID,Title,ShortTitle,MetaTitle,Description,ContentHtml,Images,MetaKeywords,MetaDescription,Status,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,PublishedDate,RelatedNewes,CategoryID,ViewCount,Source,UpTopNew,UpTopHot,RelatedProduct")] News news)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +95,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 DateTime now = DateTime.Now;
                 news.UpdatedDate = now;
                 news.UpdatedBy = Session["username"].ToString();
+                news.MetaTitle = ConvertToSEO.Convert(news.ShortTitle);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

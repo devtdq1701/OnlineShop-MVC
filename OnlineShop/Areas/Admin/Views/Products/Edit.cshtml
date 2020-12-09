@@ -41,7 +41,7 @@
 }
 
 @section header{
-    Sửa sản phẩm số @Model.ID
+    Sửa sản phẩm: @Model.Title
 }
 
 @using (Html.BeginForm())
@@ -77,25 +77,37 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Images, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Images, new { htmlAttributes = new { @class = "form-control" }, @id = "txtImage" })
-                <button id="btnSelectImage">Chọn ảnh</button>
+            <div class="form-inline">
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Images, new { @class = "form-control", @id = "txtImage", @style="width:100%" })
+                </div>
+                <div class="col-md-2">
+                    <button id="btnSelectImage" class="btn btn-primary">Chọn ảnh</button>
+                </div>
                 @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Images, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Images2nd, new { htmlAttributes = new { @class = "form-control" }, @id = "txtImage2" })
-                <button id="btnSelectImage2">Chọn ảnh</button>
+            @Html.LabelFor(model => model.Images2nd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-inline">
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Images2nd, new { @class = "form-control", @id = "txtImage2", @style = "width:100%" })
+                </div>
+                <div class="col-md-2">
+                    <button id="btnSelectImage2" class="btn btn-primary">Chọn ảnh</button>
+                </div>
                 @Html.ValidationMessageFor(model => model.Images2nd, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Images, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Images3rd, new { htmlAttributes = new { @class = "form-control" }, @id = "txtImage3" })
-                <button id="btnSelectImage3">Chọn ảnh</button>
+            @Html.LabelFor(model => model.Images3rd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-inline">
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Images3rd, new { @class = "form-control", @id = "txtImage3", @style = "width:100%" })
+                </div>
+                <div class="col-md-2">
+                    <button id="btnSelectImage3" class="btn btn-primary">Chọn ảnh</button>
+                </div>
                 @Html.ValidationMessageFor(model => model.Images3rd, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -158,7 +170,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UpTopNew, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UpTopNew, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.UpTopNew, new { @class = "form-control", type = "datetime-local" })
                 @Html.ValidationMessageFor(model => model.UpTopNew, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -166,7 +178,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UpTopHot, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UpTopHot, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.UpTopHot, new { @class = "form-control", type = "datetime-local" })
                 @Html.ValidationMessageFor(model => model.UpTopHot, "", new { @class = "text-danger" })
             </div>
         </div>

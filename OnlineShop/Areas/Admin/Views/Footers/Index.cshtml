@@ -39,9 +39,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.ContentHtml)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Status)
-                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -53,10 +50,7 @@
                             @Html.DisplayFor(modelItem => item.Title)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ContentHtml)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
+                            @Html.Raw(item.ContentHtml)
                         </td>
                         <td>
                             @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |

@@ -31,6 +31,7 @@
 
         [Required(ErrorMessage = "Cần nhập email")]
         [StringLength(50, ErrorMessage = "Tối đa 50 kí tự")]
+        [EmailAddress]
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; }
 

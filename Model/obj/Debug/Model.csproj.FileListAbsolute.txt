@@ -41,8 +41,8 @@ C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFra
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.xml
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csprojAssemblyReference.cache
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csproj.CopyComplete
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.dll
 C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.pdb
+C:\Users\Katar\Desktop\Nhom13BanThietBiChoiGame-master\Model\obj\Debug\Model.csprojAssemblyReference.cache

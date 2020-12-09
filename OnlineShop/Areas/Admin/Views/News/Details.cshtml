@@ -14,22 +14,18 @@
 }
 
 @section header{
-    Chi tiết bài viết
+    Chi tiết tin tức
 }
     <div>
         <hr />
         <table class="table table-striped">
             <tr>
-                <th scope="row">@Html.DisplayNameFor(model => model.Category.Title)</th>
+                <th scope="row">Loại tin tức</th>
                 <td>@Html.DisplayFor(model => model.Category.Title)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Title)</th>
                 <td>@Html.DisplayFor(model => model.Title)</td>
-            </tr>
-            <tr>
-                <th scope="row">@Html.DisplayNameFor(model => model.MetaTitle)</th>
-                <td>@Html.DisplayFor(model => model.MetaTitle)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Images)</th>
@@ -41,7 +37,7 @@
             </tr>
             <tr>
                 <th scope="row"> @Html.DisplayNameFor(model => model.ContentHtml)</th>
-                <td>@Html.DisplayFor(model => model.ContentHtml)</td>
+                <td>@Html.Raw(Model.ContentHtml)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.MetaKeywords)</th>
@@ -94,6 +90,10 @@
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.UpTopHot)</th>
                 <td>@Html.DisplayFor(model => model.UpTopHot)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(model => model.RelatedProduct)</th>
+                <td>@Html.DisplayFor(model => model.RelatedProduct)</td>
             </tr>
         </table>
         <hr />

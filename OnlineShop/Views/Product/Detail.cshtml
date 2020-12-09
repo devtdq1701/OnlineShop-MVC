@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var sameProducts = (List<Model.EF.Product>)ViewBag.SameProducts;
 }
 @section title{
     <title>@Model.Title</title>
@@ -29,6 +30,43 @@
         galleryThumbs.controller.control = galleryTop;
 
     </script>
+    <script>
+        $(document).ready(function () {
+            var pid = $('#qtyInput').attr('data-id');
+            var quantity = $('#qtyInput').val();
+            var link = "/them-gio-hang?id=" + pid + "&quantity=" + quantity;
+            $("#add-to-cart").attr("href", link);
+        });
+    </script>
+    <script>
+        var swiper = new Swiper('.product-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            //autoplay: {
+            //    delay: 2500,
+            //    disableOnInteraction: false,
+            //},
+            // init: false,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 0,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 0,
+                },
+            }
+        });
+    </script>
 }
 <div class="product-single">
     <div class="breadcrumb">
@@ -43,8 +81,16 @@
             <div class="swiper-container gallery-top">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="@Model.Images" alt="" class="zoom-img"></div>
-                    <div class="swiper-slide zoom-img"><img src="@Model.Images2nd" alt="" class="zoom-img"></div>
-                    <div class="swiper-slide zoom-img"><img src="@Model.Images3rd" alt="" class="zoom-img"></div>
+                    @{
+                        if (Model.Images2nd != null)
+                        {
+                            <div class="swiper-slide zoom-img"><img src="@Model.Images2nd" alt="" class="zoom-img"></div>
+                        }
+                        if (Model.Images3rd != null)
+                        {
+                            <div class="swiper-slide zoom-img"><img src="@Model.Images3rd" alt="" class="zoom-img"></div>
+                        }
+                    }
                 </div>
                 <!-- Add Arrows -->
                 <div class="swiper-button-next swiper-button-white"></div>
@@ -54,8 +100,16 @@
             <div class="swiper-container gallery-thumbs">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" style="background-image: url(@Model.Images);"></div>
-                    <div class="swiper-slide" style="background-image: url(@Model.Images2nd);"></div>
-                    <div class="swiper-slide" style="background-image: url(@Model.Images3rd);"></div>
+                    @{
+                        if (Model.Images2nd != null)
+                        {
+                            <div class="swiper-slide" style="background-image: url(@Model.Images2nd);"></div>
+                        }
+                        if (Model.Images3rd != null)
+                        {
+                            <div class="swiper-slide" style="background-image: url(@Model.Images3rd);"></div>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -94,7 +148,7 @@
                             <div class="quantity">
                                 Số lượng
                                 <div class="quantity-wrap">
-                                    <input type="number" min="1" max="@Model.Quantity" step="1" value="1">
+                                    <input type="number" min="1" max="@Model.Quantity" step="1" value="1" id="qtyInput" @*data-id="@Model.ID"*@>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +163,7 @@
             </div>
 
             <div class="add-cart-buttons">
-                <button type="button" class="btn-add-cart btn-add-cart-2">
+                <button @*href=""*@ class="btn-add-cart btn-add-cart-2" id="add-to-cart" data-id="@Model.ID">
                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.00033 18.3334C8.46056 18.3334 8.83366 17.9603 8.83366 17.5001C8.83366 17.0398 8.46056 16.6667 8.00033 16.6667C7.54009 16.6667 7.16699 17.0398 7.16699 17.5001C7.16699 17.9603 7.54009 18.3334 8.00033 18.3334Z" stroke="#005EC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.1663 18.3334C17.6266 18.3334 17.9997 17.9603 17.9997 17.5001C17.9997 17.0398 17.6266 16.6667 17.1663 16.6667C16.7061 16.6667 16.333 17.0398 16.333 17.5001C16.333 17.9603 16.7061 18.3334 17.1663 18.3334Z" stroke="#005EC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1.33301 0.833252H4.66634L6.89967 11.9916C6.97588 12.3752 7.1846 12.7199 7.4893 12.9652C7.79399 13.2105 8.17526 13.3407 8.56634 13.3333H16.6663C17.0574 13.3407 17.4387 13.2105 17.7434 12.9652C18.0481 12.7199 18.2568 12.3752 18.333 11.9916L19.6663 4.99992H5.49967" stroke="#005EC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     Thêm vào giỏ hàng
                 </button>
@@ -193,4 +247,64 @@
             </div>
         </div>
     </div>
+    @{ if (sameProducts != null)
+        {
+            <div class="block block--home">
+                <div class="block__header"><span class="block__header__title">SẢN PHẨM TƯƠNG TỰ</span></div>
+                <div class="block__content home__product desktop">
+                    <div class="swiper-container product-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in sameProducts)
+                            {
+                                var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                                string myClass = "hide";
+                                string oldprice = "";
+                                if (item.OldPrice.HasValue)
+                                {
+                                    oldPrice = item.OldPrice.Value.ToString("N0") + "đ";
+                                }
+
+                                <div class="swiper-slide">
+                                    <div class="product">
+                                        @if (item.PercentSale != 0)
+                                        {
+                                            myClass = "percent";
+                                        }
+                                        <div class="@myClass"><span>@(item.PercentSale.Value)%</span></div>
+                                        <div class="product__thumb">
+                                            <a class="product__link" href="@url"><img src="@item.Images" alt=""></a>
+                                        </div>
+                                        <div class="product__bottom">
+                                            <div class="product__title">
+                                                <a href="@url" class="product__link">@item.Title</a>
+                                            </div>
+                                            <div class="product__rate">
+                                                <div class="rate__star">
+                                                    <i class="fas fa-star "></i>
+                                                    <i class="fas fa-star "></i>
+                                                    <i class="fas fa-star "></i>
+                                                    <i class="fas fa-star "></i>
+                                                    <i class="fas fa-star "></i>
+                                                </div>
+                                                <div class="rate__text">0 đánh giá</div>
+                                            </div>
+                                            <div class="product__price">
+                                                <span class="price__selling">@(item.Price.Value.ToString("N0")) đ</span>
+                                                <span class="price__old">@oldprice</span>
+                                            </div>
+                                            <button class="add-to-cart" @*href="/them-gio-hang?id=@item.ID&quantity=1"*@ data-id="@item.ID">Mua ngay</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
 </div>
