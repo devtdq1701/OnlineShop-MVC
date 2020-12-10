@@ -18,7 +18,7 @@ namespace OnlineShop.Controllers
         //[OutputCache(Duration =int.MaxValue, VaryByParam ="id",Location =System.Web.UI.OutputCacheLocation.Server)]
         public List<Product> ProductList(long id, long pid, int top)
         {
-            return db.Products.Where(x=>x.CategoryID==id && x.CategoryID != pid).OrderByDescending(x => x.CreatedDate).Take(top).ToList();
+            return db.Products.Where(x=>x.CategoryID==id && x.ID != pid).OrderByDescending(x => x.CreatedDate).Take(top).ToList();
         }
         [OutputCache(CacheProfile ="Cache1DayForProduct")]
         public ActionResult Detail(long id)
