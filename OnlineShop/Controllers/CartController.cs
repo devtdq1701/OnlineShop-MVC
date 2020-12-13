@@ -49,6 +49,7 @@ namespace OnlineShop.Controllers
             order.ShipMobile = ShipMobile;
             order.ShipAddress = ShipAddress;
             order.Note = Note;
+            order.Status = "Đang giao";
             db.Orders.Add(order);
             db.SaveChanges();
             var id = order.ID;

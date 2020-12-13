@@ -52,7 +52,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                     Session["username"] = user.UserName;
                     var userSession = new UserLogin();
                     userSession.UserName = user.UserName;
-                    Session.Add(CommonConstants.USER_SESSiON,userSession);
+                    Session.Add(CommonConstants.USER_SESSION,userSession);
                     return RedirectToAction("Index","Home");
                 }
                 else if(result==0)

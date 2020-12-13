@@ -41,7 +41,18 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Status)</th>
-                <td>@Html.DisplayFor(model => model.Status)</td>
+                <td>
+                    @{
+                        if (Model.Status == true)
+                        {
+                            <span class="badge badge-pill badge-success">Kích hoạt</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
+                        }
+                    }
+                </td>
             </tr>
         </table>
         <hr />

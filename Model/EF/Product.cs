@@ -20,6 +20,7 @@
         public string Code { get; set; }
 
         [StringLength(250)]
+        [Display(Name = "Tiêu đề SEO")]
         public string MetaTitle { get; set; }
 
         [Display(Name = "Mô tả ngắn")]
@@ -37,10 +38,10 @@
         [Display(Name = "Ảnh 3")]
         public string Images3rd { get; set; }
 
-        [Display(Name = "Giá hiện tại")]
+        [Display(Name = "Giá KM")]
         public decimal? Price { get; set; }
 
-        [Display(Name = "Giá niêm yết")]
+        [Display(Name = "Giá")]
         public decimal? OldPrice { get; set; }
 
         [StringLength(250)]
@@ -66,7 +67,7 @@
         [Display(Name = "Người sửa")]
         public string UpdatedBy { get; set; }
 
-        [Display(Name = "Loại hàng")]
+        [Display(Name = "Danh mục")]
         public long CategoryID { get; set; }
 
         [Display(Name = "Lượt xem")]
@@ -75,17 +76,17 @@
         [Display(Name = "Nhãn hàng")]
         public int BrandID { get; set; }
 
-        [Display(Name = "Up New")]
-        public DateTime? UpTopNew { get; set; }
+        //[Display(Name = "Up New")]
+        //public DateTime? UpTopNew { get; set; }
 
-        [Display(Name = "Up Hot")]
-        public DateTime? UpTopHot { get; set; }
+        [Display(Name = "SP Hot")]
+        public bool UpTopHot { get; set; }
 
         [Display(Name = "Chi tiết")]
         [Column(TypeName = "ntext")]
         public string Detail { get; set; }
 
-        [Display(Name = "Thời gian bảo hành")]
+        [Display(Name = "Bảo hành (tháng)")]
         public int? Guarantee { get; set; }
 
         [StringLength(250)]

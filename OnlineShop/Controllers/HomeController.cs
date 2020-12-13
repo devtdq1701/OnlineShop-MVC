@@ -24,6 +24,13 @@ namespace OnlineShop.Controllers
         }
         [ChildActionOnly]
         [OutputCache(Duration = 3600 * 24)]
+        public PartialViewResult SearchOption()
+        {
+            var model = db.ProductCategories.Where(x => x.Status == true && x.ParentID.HasValue).OrderBy(x => x.Order).ToList();
+            return PartialView(model);
+        }
+        [ChildActionOnly]
+        [OutputCache(Duration = 3600 * 24)]
         public PartialViewResult ListNewProduct()
         {
             ViewBag.NewProducts = NewProduct(8);

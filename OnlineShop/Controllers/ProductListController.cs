@@ -12,33 +12,55 @@ namespace OnlineShop.Controllers
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
         // GET: ProductList
-        public ActionResult Index(string Sorting_Order,long id, int? page = 1)
+        public ActionResult Index(string metatitle,string sortOrder,long id, int? page = 1)
         {
-            ViewBag.CurrentSortOrder = Sorting_Order;
-            ViewBag.SortingName = String.IsNullOrEmpty(Sorting_Order) ? "Name_Description" : "";
-            ViewBag.SortingDate = String.IsNullOrEmpty(Sorting_Order) ? "Date_Enroll" : "";
-            var model = db.Products.Where(x => x.CategoryID == id).OrderByDescending(x => x.CreatedDate);
+            var products = from s in db.Products
+                           select s;
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortLabel = "Mới nhất";
+            products = db.Products.Where(x => x.CategoryID == id);
+            ViewBag.totalRecord = products.Count();
+            switch (sortOrder)
+            {
+                case "Name":
+                    products = products.OrderBy(s => s.Title);
+                    ViewBag.SortLabel = "Tên(A - Z)";
+                    break;
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.Title);
+                    ViewBag.SortLabel = "Tên(Z - A)";
+                    break;
+                case "Price":
+                    products = products.OrderBy(s => s.Price);
+                    ViewBag.SortLabel = "Giá (Thấp - cao)";
+                    break;
+                case "price_desc":
+                    products = products.OrderByDescending(s => s.Price);
+                    ViewBag.SortLabel = "Giá (Cao - thấp)";
+                    break;
+                case "date":
+                    products = products.OrderByDescending(s => s.CreatedDate);
+                    ViewBag.SortLabel = "Mới nhất";
+                    break;
+                default:
+                    products = products.OrderByDescending(x => x.CreatedDate);
+                    ViewBag.SortLabel = "Mới nhất";
+                    break;
+            }
+
             ProductCategory productCategory = db.ProductCategories.Find(id);
             ViewBag.CategoryName = productCategory.Title;
             ViewBag.CategoryMeta = productCategory.MetaTitle;
             ViewBag.CategoryID = productCategory.ID;
             ViewBag.ShortDesc = productCategory.ShortDesc;
             ViewBag.Desc = productCategory.Description;
-            int pageSize = 12;
-            int pageNumber = (page ?? 1);
-            switch (Sorting_Order)
+            if (productCategory.MetaTitle == metatitle)
             {
-                case "Name_Description":
-                    model = db.Products.OrderByDescending(x=>x.Title);
-                    break;
-                case "Date_Enroll":
-                    model = db.Products.OrderBy(x=>x.CreatedDate);
-                    break;
-                default:
-                    model = db.Products.OrderByDescending(x => x.Title);
-                    break;
+                return View(products.ToPagedList(pageNumber, pageSize));
             }
-            return View(model.ToPagedList(pageNumber, pageSize));
+            return RedirectToAction("Error404", "Error");
         }
     }
 }

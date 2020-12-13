@@ -16,12 +16,12 @@ namespace OnlineShop.Controllers
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
         //[OutputCache(Duration =int.MaxValue, VaryByParam ="id",Location =System.Web.UI.OutputCacheLocation.Server)]
-        public List<Product> ProductList(long id, long pid, int top)
+        public List<Product> ProductList(long id, long pid)
         {
-            return db.Products.Where(x=>x.CategoryID==id && x.ID != pid).OrderByDescending(x => x.CreatedDate).Take(top).ToList();
+            return db.Products.Where(x=>x.CategoryID==id && x.ID != pid).OrderByDescending(x => x.CreatedDate).ToList();
         }
         [OutputCache(CacheProfile ="Cache1DayForProduct")]
-        public ActionResult Detail(long id)
+        public ActionResult Detail(string metatitle, long id)
         {
             var model = db.Products.Find(id);
             // Tăng số lần xem
@@ -31,7 +31,7 @@ namespace OnlineShop.Controllers
             if (RecentProduct != null)
             {
                 var list = (List<RecentProduct>)RecentProduct;
-                if (list.Exists(x => x.Product.ID == id))
+                if (list.Exists(x => x.Product.ID == id && x.Product.MetaTitle==metatitle))
                 {
 
                 }
@@ -54,8 +54,12 @@ namespace OnlineShop.Controllers
                 Session["RecentProductList"] = list;
 
             }
-            ViewBag.SameProducts = ProductList(model.CategoryID,id,8);
-            return View(model);
+            ViewBag.SameProducts = ProductList(model.CategoryID,id);
+            if (model.MetaTitle == metatitle)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Error404", "Error");
         }
         [ChildActionOnly]
         [OutputCache(Duration = 3600 * 24)]
@@ -68,13 +72,58 @@ namespace OnlineShop.Controllers
             var data= db.Products.Where(x => x.Title.Contains(q)).Select(x => x.Title).ToList();
             return Json(new { data = data, status = true }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Search(string keyword, int? page = 1)
+        public ActionResult Search(string sortOrder,string keyword,long category_id, int? page = 1)
         {
-            var model = db.Products.Where(x => x.Title.Contains(keyword)).OrderByDescending(x => x.CreatedDate).ToList();
+            var products = from s in db.Products
+                           select s;
             int pageSize = 12;
             int pageNumber = (page ?? 1);
             ViewBag.Keyword = keyword;
-            return View(model.ToPagedList(pageNumber, pageSize));
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortLabel = "Mới nhất";
+            ViewBag.CategoryID = category_id;
+            if (String.IsNullOrEmpty(keyword))
+            {
+                ViewBag.totalRecord = 0;
+            }
+            if(category_id==0)
+            {
+                products = db.Products.Where(x => x.Title.Contains(keyword));
+                ViewBag.totalRecord = products.Count();
+            }
+            else
+            {
+                products = db.Products.Where(x => x.CategoryID==category_id && x.Title.Contains(keyword));
+                ViewBag.totalRecord = products.Count();
+            }
+            switch (sortOrder)
+            {
+                case "Name":
+                    products = products.OrderBy(s => s.Title);
+                    ViewBag.SortLabel = "Tên(A - Z)";
+                    break;
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.Title);
+                    ViewBag.SortLabel = "Tên(Z - A)";
+                    break;
+                case "Price":
+                    products = products.OrderBy(s => s.Price);
+                    ViewBag.SortLabel = "Giá (Thấp - cao)";
+                    break;
+                case "price_desc":
+                    products = products.OrderByDescending(s => s.Price);
+                    ViewBag.SortLabel = "Giá (Cao - thấp)";
+                    break;
+                case "date":
+                    products = products.OrderByDescending(s => s.CreatedDate);
+                    ViewBag.SortLabel = "Mới nhất";
+                    break;
+                default:  
+                    products = products.OrderByDescending(x => x.CreatedDate);
+                    ViewBag.SortLabel = "Mới nhất";
+                    break;
+            }
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
     }
 }

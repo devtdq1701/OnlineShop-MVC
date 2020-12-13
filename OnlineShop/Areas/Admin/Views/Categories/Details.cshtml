@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Images)</th>
-                <td><img class="img-fluid img-custom" src="@Url.Content(""+Html.DisplayFor(model => model.Images))" alt=""></td>
+                <td><img class="img-fluid img-custom" src="Html.DisplayFor(model => model.Images)" alt=""></td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Description)</th>
@@ -52,11 +52,16 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Status)</th>
-                <td>@Html.DisplayFor(model => model.Status)</td>
-            </tr>
-            <tr>
-                <th scope="row">@Html.DisplayNameFor(model => model.IsIntroduced)</th>
-                <td>@Html.DisplayFor(model => model.IsIntroduced)</td>
+                <td>@{
+                    if (Model.Status == true)
+                    {
+                        <span class="badge badge-pill badge-success">Kích hoạt</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
+                    }
+                }</td>
             </tr>
         </table>
         <hr/>

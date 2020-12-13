@@ -10,11 +10,15 @@ namespace OnlineShop.Controllers
     public class ChiTietTinTucController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
-        public ActionResult Index(long id)
+        public ActionResult Index(string metatitle,long id)
         {
             var model = db.Newses.Find(id);
             ViewBag.RelatedNewses = db.Newses.Where(x => x.CategoryID == model.CategoryID).Take(3).ToList();
-            return View(model);
+            if (model.MetaTitle == metatitle)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Error404", "Error");
         }
     }
 }

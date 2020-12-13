@@ -52,6 +52,21 @@
                 <th scope="row">Danh mục cha</th>
                 <td>@Html.DisplayFor(model => model.ParentID)</td>
             </tr>
+            <tr>
+                <th scope="row">Trạng thái</th>
+                <td>
+                    @{
+                        if (Model.Status == true)
+                        {
+                            <span class="badge badge-pill badge-success">Kích hoạt</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-pill badge-danger">Huỷ kích hoạt</span>
+                        }
+                        }
+                 </td>
+            </tr>
         </table>
         <hr />
     </div>

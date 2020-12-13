@@ -51,22 +51,17 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory, HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory)
         {
             if (ModelState.IsValid)
             {
-                if (Images != null)
-                {
-                    string path = Path.Combine(Server.MapPath("~/Assets/Admin/img"), Path.GetFileName(Images.FileName));
-                    Images.SaveAs(path);
-                    productCategory.Images = Images.FileName;
-                }
                 DateTime now = DateTime.Now;
                 productCategory.CreatedDate= now;
                 productCategory.CreatedBy = Session["username"].ToString();
                 productCategory.MetaTitle = ConvertToSEO.Convert(productCategory.Title);
                 db.ProductCategories.Add(productCategory);
                 db.SaveChanges();
+                SetAlert("Thêm thành công", "success");
                 return RedirectToAction("Index");
             }
             SetViewBag();
@@ -94,22 +89,17 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory, HttpPostedFileBase Images)
+        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,NavImages,BannerImages,ShortDesc,Description,Order,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,ParentID,Style")] ProductCategory productCategory)
         {
             if (ModelState.IsValid)
             {
-                if (Images != null)
-                {
-                    string path = Path.Combine(Server.MapPath("~/Assets/Admin/img"), Path.GetFileName(Images.FileName));
-                    Images.SaveAs(path);
-                    productCategory.Images = Images.FileName;
-                }
                 db.Entry(productCategory).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 productCategory.UpdatedDate = now;
                 productCategory.UpdatedBy = Session["username"].ToString();
                 productCategory.MetaTitle = ConvertToSEO.Convert(productCategory.Title);
                 db.SaveChanges();
+                SetAlert("Sửa thành công", "success");
                 return RedirectToAction("Index");
             }
             SetViewBag(productCategory.ID);

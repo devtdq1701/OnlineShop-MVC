@@ -9,29 +9,108 @@
     @RenderSection("title", required: false)
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <link href="/Assets/Client/fontawesome-pro-5.15.1-web/css/all.min.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Assets/Client/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/Assets/Client/css/jquery-ui.css" rel="stylesheet" />
+    <link href="/Assets/Client/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/Assets/Client/css/main.css" rel="stylesheet" />
     <link href="/Assets/Client/js/rating.css" rel="stylesheet" />
     <link href="/Assets/Client/js/swiper/swiper-bundle.min.css" rel="stylesheet" />
     @RenderSection("css", required: false)
     <link rel="shortcut icon" type="image/png" href="/Assets/Client/img/logo.jpg" sizes="32x32">
+    <style>
+        .s-hidden {
+            display: none
+        }
+
+        .select {
+            position: absolute;
+            width: 255px !important;
+            /* justify-content: flex-end; */
+            /* left: 60px; */
+            right: 0;
+            height: 100%;
+        }
+            .select:before {
+                content: "";
+                height: calc(100% - 13px);
+                width: 1px;
+                background: #005ec4;
+                left: 0;
+                top: 6.5px;
+                display: block;
+            }
+
+        .styledSelect {
+            position: relative;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            text-align: right;
+            margin-right: 115px;
+        }
+
+            .styledSelect:after {
+                content: "";
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #000;
+                position: absolute;
+                top: calc(50% - 2.5px);
+                right: -50px;
+            }
+
+
+        .options {
+            display: none;
+            border: 1px solid #ccc;
+            /* background-color: white; */
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(194,198,201,.32);
+            z-index: 9;
+            background: #fff;
+            height: 500px;
+            overflow: auto;
+        }
+
+            .options li:first-child {
+                font-weight: bold;
+                font-size: 16px;
+                color: rgb(0, 94, 196);
+            }
+            .options li {
+                border-bottom: .5px solid #cccfd6;
+                display: block;
+                padding: 10px 0;
+                margin: 0 16px;
+                text-decoration: none;
+                font-size: 16px;
+                color: #29324e;
+                white-space: nowrap;
+            }
+
+
+                .options li:hover {
+                    cursor: pointer
+                }
+
+    </style>
 </head>
 
 <body class="common-home">
 
     <div class="app">
-
-        <!-- Header -->
-
         <header class="header">
             <div class="header__top">
                 <div class="container">
                     <span>Hotline : (024) 3628.8790 - 3512.0778 • Email: cskh@tncstore.vn</span>
                 </div>
             </div>
-            <!-- Top Bar -->
-
             <div class="header__main">
                 <div class="container">
                     <div class="header__logo"><a href="/" ref="nofollow"><img src="/Assets/Client/img/tnc-logo.svg" alt=""></a></div>
@@ -45,6 +124,10 @@
                                     </div>
                                     <div class="searchbox__select__content"><a href="javascript:void(0)" class="searchbox__select__content__item" style="font-weight: bold; font-size: 16px; color: rgb(0, 94, 196);"><span>Tất cả danh mục</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Xây dựng cấu hình PC</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRO AUDIO</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRO CREATOR</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRO DUCTIVITY</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRO VR</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Máy Tính PC</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRO GAMING PC</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Workstation PC - Đồ Hoạ</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>Laptops </span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gaming laptop</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laptop Văn Phòng</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phụ kiện, Balo laptop</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Đế Tản Nhiệt Laptop</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Linh kiện máy tính</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mainboard - Bo mạch chủ</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPU - Bộ vi xử lý</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AMD</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAM - Bộ nhớ trong</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ổ cứng HDD</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ổ cứng HDD - Laptop</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ổ cứng HDD - PC</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VGA - Card màn hình</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case - Vỏ máy tính</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PSU - Nguồn máy tính</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ổ cứng SSD</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Màn Hình Máy Tính</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Màn Hình Gaming</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Màn Hình Văn Phòng</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Màn Hình Đồ Họa</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Gaming Gears</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Balo Gaming</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bàn di chuột</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bàn phím Gaming</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bàn Phím Cơ</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bàn Phím Giả Cơ</span></a><a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bàn, Ghế Game</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chuột Gaming</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keycaps </span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MICROPHONE</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tai Nghe Gaming</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tay cầm chơi game </span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thiết bị Stream</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Thiết bị mạng</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROUTER WIFI, ACCESSPOINT </span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODEM ADSL INTERNET</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Card Mạng</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>PHỤ KIỆN, TẢN NHIỆT PC</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dây Nối Dài - Dây Riser</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GIÁ ĐỠ VGA</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tản nhiệt khí cho PC</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tản nước ALL IN ONE</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quạt Tản Nhiệt PC</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>Thiết bị văn phòng</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bộ Bàn Phím Chuột Không Dây</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bộ Chia USB</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bộ Lưu Điện</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loa Máy Tính</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phần mềm bản quyền</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USB Flash</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Webcam</span></a> <a href="javascript:void(0)" class="searchbox__select__content__item"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Máy in Laser</span></a> </div>
                                 </div>*@
+                            <select id="selectbox1" name="category_id">
+                                <option value="0">Tất cả danh mục</option>
+                                @{Html.RenderAction("SearchOption", "Home"); }
+                            </select>
                             <button type="submit" style="border: 0; background: transparent">
                                 <img src="/Assets/Client/img/search-icon.svg" alt="" class="searchbox__icon"> <!---->
                             </button>
@@ -52,11 +135,8 @@
                     </form>
                     <p id="search-description"></p>
                     @{ Html.RenderAction("HeaderCart", "Home");}
-                    <!---->
                 </div>
             </div>
-
-            <!-- Main Navigation -->
             <div class="header__bottom">
                 <div class="container">
                     <div class="header__bottom" style="display: none;">
@@ -91,7 +171,6 @@
                             </div>
                             <div class="header__bottom__right">@{Html.RenderAction("MainNavMenu", "Home"); }</div>
                         </div>
-                        <!---->
                     </div>
                     <div class="header__bottom__left">
                         <div class="header_bottom_item tnc-category">
@@ -115,30 +194,10 @@
             </div>
         </header>
         <div class="container">
-            <!-- Banner -->
             @RenderSection("Slide", required: false)
-
-
-            <!-- Characteristics -->
             @RenderSection("Characteristics", required: false)
-
-            <!-- Deals of the week -->
-
-
             @RenderSection("HomeCategory", required: false)
-
-            <!-- Banner -->
             @RenderBody()
-
-
-
-            <!-- Hot Product -->
-            <!-- Best Sellers -->
-            <!-- Adverts -->
-            <!-- Trends -->
-            <!-- Reviews -->
-            <!-- Recently Viewed -->
-            <!-- Brands -->
         </div>
 
         <footer class="footer">
@@ -202,6 +261,72 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             }
+        });
+    </script>
+    <script>
+        // Iterate over each select element
+        $('select').each(function () {
+
+            // Cache the number of options
+            var $this = $(this),
+                numberOfOptions = $(this).children('option').length;
+
+            // Hides the select element
+            $this.addClass('s-hidden');
+
+            // Wrap the select element in a div
+            $this.wrap('<div class="select"></div>');
+
+            // Insert a styled div to sit over the top of the hidden select element
+            $this.after('<div class="styledSelect"></div>');
+
+            // Cache the styled div
+            var $styledSelect = $this.next('div.styledSelect');
+
+            // Show the first select option in the styled div
+            $styledSelect.text($this.children('option').eq(0).text());
+
+            // Insert an unordered list after the styled div and also cache the list
+            var $list = $('<ul />', {
+                'class': 'options'
+            }).insertAfter($styledSelect);
+
+            // Insert a list item into the unordered list for each select option
+            for (var i = 0; i < numberOfOptions; i++) {
+                $('<li />', {
+                    text: $this.children('option').eq(i).text(),
+                    rel: $this.children('option').eq(i).val()
+                }).appendTo($list);
+            }
+
+            // Cache the list items
+            var $listItems = $list.children('li');
+
+            // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
+            $('.select').click(function (e) {
+                e.stopPropagation();
+                $('div.styledSelect.active').each(function () {
+                    $('.styledSelect').removeClass('active').next('ul.options').hide();
+                });
+                $('.styledSelect').toggleClass('active').next('ul.options').toggle();
+            });
+
+            // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
+            // Updates the select element to have the value of the equivalent option
+            $listItems.click(function (e) {
+                e.stopPropagation();
+                $styledSelect.text($(this).text()).removeClass('active');
+                $this.val($(this).attr('rel'));
+                $list.hide();
+                /* alert($this.val()); Uncomment this for demonstration! */
+            });
+
+            // Hides the unordered list when clicking outside of it
+            $(document).click(function () {
+                $styledSelect.removeClass('active');
+                $list.hide();
+            });
+
         });
     </script>
 </body>

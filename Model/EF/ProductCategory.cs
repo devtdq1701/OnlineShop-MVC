@@ -22,6 +22,7 @@
         public string Title { get; set; }
 
         [StringLength(250)]
+        [Display(Name = "Thẻ SEO")]
         public string MetaTitle { get; set; }
 
         [StringLength(250)]
@@ -68,7 +69,7 @@
         public string MetaDescription { get; set; }
 
         [Display(Name = "Tình trạng")]
-        public bool? Status { get; set; }
+        public bool Status { get; set; }
 
         [Display(Name = "Danh mục cha")]
         public long? ParentID { get; set; }

@@ -1,4 +1,4 @@
-namespace Model.EF
+﻿namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -20,9 +20,11 @@ namespace Model.EF
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Tiêu đề")]
         public string Name { get; set; }
 
         [StringLength(250)]
+        [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
         public DateTime? CreatedDate { get; set; }
@@ -35,8 +37,10 @@ namespace Model.EF
         [StringLength(20)]
         public string UpdatedBy { get; set; }
 
+        [Display(Name = "Kích hoạt")]
         public bool IsActived { get; set; }
 
+        [Display(Name = "Xoá")]
         public bool IsDeleted { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

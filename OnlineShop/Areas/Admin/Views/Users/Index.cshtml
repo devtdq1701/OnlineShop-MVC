@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Model.EF.User>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+                /**/
+
+                ViewBag.Title = "Index";
+                Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section css{
     <link href="~/Assets/Admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -88,34 +90,33 @@
                 </tfoot>
                 @foreach (var item in Model)
                 {
-                <tr id="row_@item.UserName">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Mobile)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sex)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GroupID)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Sửa", "Edit", new { id = item.UserName }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                        @Html.ActionLink("Chi tiết", "Details", null, new { id = item.UserName }, new { @class = "btn btn-info btn-icon-split btn-padding" }) |
-                        @Ajax.ActionLink("Xoá", "Delete", new { @id = item.UserName }, new AjaxOptions { Confirm = "Bạn có muốn xoá người dùng này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })
-                    </td>
-                </tr>
+                    <tr id="row_@item.UserName">
+                        <td>
+                            <a href="/Admin/Users/Details/@item.UserName">@Html.DisplayFor(modelItem => item.UserName)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sex)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroupID)
+                        </td>
+                        <td style="display:flex">
+                            <a class="btn btn-primary btn-icon-split btn-padding" href="/Admin/Users/Edit/@item.UserName"><i class="far fa-edit"></i></a> |
+                            <a class="btn btn-danger btn-icon-split btn-padding" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Users/Delete/@item.UserName"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
                 }
             </table>
         </div>

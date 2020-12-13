@@ -10,11 +10,16 @@ namespace OnlineShop.Controllers
     public class ParentCategoryController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
-        public ActionResult Category(long id)
+        public ActionResult Category(string metatitle,long id)
         {
             var model = db.ProductCategories.Find(id);
-            ViewBag.ChildCategories = db.ProductCategories.Where(x=>x.ParentID==id).OrderBy(x=>x.Order).ToList();
-            return View(model);
+            if (model.MetaTitle == metatitle)
+            {
+                ViewBag.ChildCategories = db.ProductCategories.Where(x => x.ParentID == id).OrderBy(x => x.Order).ToList();
+                return View(model);
+            }
+            return RedirectToAction("Error404", "Error");
+
         }
     }
 }

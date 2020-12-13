@@ -48,7 +48,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,Description,Order,ParentID,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,IsIntroduced")] Category category,HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ID,Title,MetaTitle,Images,Description,Order,ParentID,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status")] Category category,HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,Description,Order,ParentID,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status,IsIntroduced")] Category category)
+        public ActionResult Edit([Bind(Include = "ID,Title,MetaTitle,Images,Description,Order,ParentID,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,MetaKeywords,MetaDescription,Status")] Category category)
         {
             if (ModelState.IsValid)
             {

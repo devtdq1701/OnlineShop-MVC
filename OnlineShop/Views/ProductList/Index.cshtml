@@ -1,5 +1,6 @@
-﻿@model PagedList.IPagedList<Model.EF.Product>
+﻿@using PagedList;
 @using PagedList.Mvc;
+@model IPagedList<Model.EF.Product>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,35 +10,152 @@
 }
 @section css {
     <style>
-        .select ul li.option {
-            z-index: 1;
-            padding: 5px;
-            display: none;
-            list-style: none;
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+            color: #203140;
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
         }
 
-        .select ul li:first-child {
+        .custom-select {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            height: 40px;
+            border-radius: unset;
+            background: #f0f3fc;
+            border: none;
+            margin-left: 5px;
+        }
+
+        .custom-select__trigger {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            font-size: 18px;
+            font-weight: 300;
+            color: #3b3b3b;
+            height: 40px;
+            /* line-height: 60px; */
+            background: #f0f3fc;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .custom-options {
+            position: absolute;
             display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #f0f3fc;
+            transition: all 0.5s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 2;
+            border: 1px solid black;
         }
 
-        .select ul li {
-            cursor: default;
+        .custom-select.open .custom-options {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .custom-option {
+            position: relative;
+            display: block;
+            height: 20px;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            cursor: pointer;
+            line-height: 20px;
+            padding: 0 22px;
+        }
+
+            .custom-option:hover {
+                cursor: pointer;
+                background-color: #305c91;
+                color: #fff;
+            }
+            .custom-option a{
+                color: #000
+            }
+            .custom-option:hover a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+        .arrow {
+            position: relative;
+            height: 10px;
+            width: 10px;
+        }
+
+            .arrow::before, .arrow::after {
+                content: "";
+                position: absolute;
+                bottom: 0px;
+                width: 0.1rem;
+                height: 100%;
+                transition: all 0.5s;
+            }
+
+            .arrow::before {
+                left: -3px;
+                transform: rotate(-45deg);
+                background-color: #394a6d;
+            }
+
+            .arrow::after {
+                left: 4px;
+                transform: rotate(45deg);
+                background-color: #394a6d;
+            }
+
+        .open .arrow::before {
+            left: -3px;
+            transform: rotate(45deg);
+        }
+
+        .open .arrow::after {
+            left: 4px;
+            transform: rotate(-45deg);
         }
     </style>
 }
 @section js {
     <script>
-        $("ul").on("click", ".init", function () {
-            $(this).closest("ul").children('li:not(.init)').toggle();
+        document.querySelector('.custom-select-wrapper').addEventListener('click', function () {
+            this.querySelector('.custom-select').classList.toggle('open');
+        })
+        //for (const option of document.querySelectorAll(".custom-option")) {
+        //    option.addEventListener('click', function () {
+        //        if (!this.classList.contains('selected')) {
+        //            this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+        //            this.classList.add('selected');
+        //            this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+        //        }
+        //    })
+        //}
+        window.addEventListener('click', function (e) {
+            const select = document.querySelector('.custom-select')
+            if (!select.contains(e.target)) {
+                select.classList.remove('open');
+            }
         });
 
-        var allOptions = $("ul").children('li:not(.init)');
-        $("ul").on("click", "li:not(.init)", function () {
-            allOptions.removeClass('selected');
-            $(this).addClass('selected');
-            $("ul").children('.init').html($(this).html());
-            allOptions.toggle();
-        });
     </script>
     <script>
         var swiper = new Swiper('.product-container', {
@@ -86,16 +204,23 @@
         <div class="category__product-list">
             <div class="list-header">
                 <div class="list-header__top">
-                    <div class="category-name">@ViewBag.CategoryName<span>(@(Model.Count()) sản phẩm)</span></div>
-                    <div class="category-sort">
+                    <div class="category-name">@ViewBag.CategoryName<span>(@(ViewBag.totalRecord) sản phẩm)</span></div>
+                    <div class="custom-select-wrapper">
                         Sắp xếp theo:
-                        <ul id="input-sort" class="form-control">
-                            <li class="init">[SELECT]</li>
-                            <li data-value="value 1">Option 1</li>
-                            <li data-value="value 2">Option 2</li>
-                            <li data-value="value 3">Option 3</li>
-                            <li data-value="Mới nhất">@Html.ActionLink("Mới nhất", "Index", new { Sorting_Order = ViewBag.SortingDate }) </li>
-                        </ul>
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>@ViewBag.SortLabel</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                <span class="custom-option" data-value="date_desc">@Html.ActionLink("Mới nhất", "Index", new { sortOrder = "date" })</span>
+                                <span class="custom-option" data-value="price">@Html.ActionLink("Giá (Thấp - cao)", "Index", new { sortOrder = "Price" })</span>
+                                <span class="custom-option" data-value="price_desc">@Html.ActionLink("Giá (Cao - thấp)", "Index", new { sortOrder = "price_desc" })</span>
+                                <span class="custom-option" data-value="name">@Html.ActionLink("Tên (A - Z)", "Search", new {sortOrder = "Name" })</span>
+                                <span class="custom-option" data-value="name_desc">@Html.ActionLink("Tên (Z - A)", "Index", new { sortOrder = "name_desc" })</span>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,14 +269,8 @@
                 }
             </div>
             <div class="category__paginate">
-                @*<ul class="pagination">
-                        <li class="active"><span>1</span></li>
-                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2">2</a></li>
-                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2"><i aria-hidden="true" class="far fa-angle-right"></i></a></li>
-                        <li><a href="https://www.tncstore.vn/gaming-pc.html?page=2"><i aria-hidden="true" class="far fa-angle-double-right"></i></a></li>
-                    </ul>*@
                 @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+            new { page, sortOrder = ViewBag.CurrentSort }), PagedListRenderOptions.ClassicPlusFirstAndLast)
             </div>
         </div>
     </div>

@@ -18,16 +18,16 @@ namespace Model.EF
         [StringLength(50)]
         public string ShipName { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string ShipEmail { get; set; }
 
         [StringLength(50)]
         public string ShipMobile { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string ShipAddress { get; set; }
 
-        [StringLength(10)]
+        [StringLength(20)]
         public string Status { get; set; }
 
         [Display(Name = "Ghi chú")]

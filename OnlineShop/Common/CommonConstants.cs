@@ -7,6 +7,6 @@ namespace OnlineShop.Common
 {
     public static class CommonConstants
     {
-        public static string USER_SESSiON = "USER_SESSiON";
+        public static string USER_SESSION = "USER_SESSION";
     }
 }

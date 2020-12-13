@@ -74,6 +74,7 @@
                 input = spinner.find('input[type="number"]'),
                 btnUp = spinner.find('.qty-increase'),
                 btnDown = spinner.find('.qty-decrease'),
+                btnRemove = spinner.find('.cart-p-remove'),
                 thisTotalPrice = spinner.find('.cart-p-price'),
                 thisPrice = thisTotalPrice.data('price'),
                 min = input.attr('min'),
@@ -144,31 +145,31 @@
                     }
                 })
             });
+            btnRemove.off('click').on('click', function () {
+                $.ajax({
+                    data: {
+                        id: btnRemove.data('id')
+                    },
+                    url: 'Cart/Delete',
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (res) {
+                        spinner.remove();
+                        if (res.Qty == 0) {
+                            setTimeout(function () {
+                                window.location.href = "/";
+                            }, 500);
+                            $('#empty-alert').delay(1000).show();
+                            $('#empty-alert').delay(1000).fadeOut(500);
+                        } else {
+                            $('.head__cart__amount').html(res.Qty);
+                            $('.p-count').html(res.Qty);
+                            $('.price').html(res.ToTalPrice);
+                        }
 
-        });
-        $('.cart-p-remove').off('click').on('click', function () {
-            $.ajax({
-                data: {
-                    id: $(this).data('id')
-                },
-                url: 'Cart/Delete',
-                dataType: 'json',
-                type: 'POST',
-                success: function (res) {
-                    if (res.Qty == 0) {
-                        setTimeout(function () {
-                            window.location.href = "/";
-                        }, 500);
-                        $('#empty-alert').delay(1000).show();
-                        $('#empty-alert').delay(1000).fadeOut(500);
-                    } else {
-                        $('.head__cart__amount').html(res.Qty);
-                        $('.p-count').html(res.Qty);
-                        $('.price').html(res.ToTalPrice);
                     }
-
-                }
-            })
+                })
+            });
         });
         $('#btnDelete').off('click').on('click', function () {
             $.ajax({
