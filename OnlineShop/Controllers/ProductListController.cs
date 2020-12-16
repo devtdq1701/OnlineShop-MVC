@@ -8,6 +8,7 @@ using PagedList;
 
 namespace OnlineShop.Controllers
 {
+    [HandleError]
     public class ProductListController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

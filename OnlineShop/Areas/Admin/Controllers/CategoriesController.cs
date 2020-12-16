@@ -12,6 +12,7 @@ using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class CategoriesController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

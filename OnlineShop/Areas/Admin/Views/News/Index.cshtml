@@ -24,19 +24,45 @@
             var $tr = $(this).closest('tr');
             $tr.remove();
             location.reload();
-        }</script>
-}
-@section header{
-    Bài viết
+        }
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
 }
 
 <p>
     @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success btn-icon-split btn-padding" })
 </p>
-<div class="card shadow mb-4">
+<div class="mb-4">
+    <form method="post" action="/Admin/News/Index">
+        <div class="form-inline">
+            <div class="mb-2 mr-sm-2">
+                <select class="custom-select" name="Category">
+                    <option selected value="0">Chọn loại bài viết</option>
+                    @foreach (var item in ViewBag.Category)
+                    {
+                        <option value="@item.ID">@item.Title</option>
+                    }
+
+                </select>
+            </div>
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Tên bài viết</div>
+                </div>
+                <input type="text" class="form-control" name="txtSearch">
+            </div>
+            <button type="submit" id="SearchBtn" class="btn btn-primary mb-2">Tìm kiếm</button>
+        </div>
+    </form>
+</div>
+<div class="card mb-4">
+    <div class="card-header">Danh sách bài viết</div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <div class="datatable">
+            <table class="table table-bordered table-hover dataTable" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
@@ -51,7 +77,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.ViewCount)
                         </th>
-                        <th></th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -68,14 +94,14 @@
                         <th>
                             @Html.DisplayNameFor(model => model.ViewCount)
                         </th>
-                        <th></th>
+                        <th>#</th>
                     </tr>
                 </tfoot>
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            <a href="/Admin/News/Details/@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
+                            <a data-toggle="tooltip" data-placement="top" title="Xem chi tiết" href="/Admin/News/Details/@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Category.Title)
@@ -87,10 +113,10 @@
                             @Html.DisplayFor(modelItem => item.ViewCount)
                         </td>
                         <td style="display: flex">
-                            <a class="btn btn-primary btn-icon-split btn-padding" href="/Admin/News/Edit/@item.ID"><i class="far fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-icon-split btn-padding" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/News/Delete/@item.ID"><i class="far fa-trash-alt"></i></a>
+                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/News/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/News/Delete/@item.ID"><i class="fa fa-trash"></i></a>
                             @*@Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
+                                @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
                         </td>
                     </tr>
                 }

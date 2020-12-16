@@ -9,6 +9,7 @@ using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class LoginController : Controller
     {
         // GET: Admin/Login

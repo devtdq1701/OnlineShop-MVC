@@ -10,6 +10,7 @@ using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class SlidesController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

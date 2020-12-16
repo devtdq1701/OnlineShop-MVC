@@ -4,17 +4,35 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-@section header{
-    Loại Menu
-}
 
+@section css{
+    <link href="~/Assets/Admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+@section js{
+    <!-- Page level plugins -->
+    <script src="~/Assets/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        function remove() {
+            var $tr = $(this).closest('tr');
+            $tr.remove();
+            location.reload();
+        }
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
 <p>
     @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success btn-icon-split btn-padding" })
 </p>
-<div class="card shadow mb-4">
+<div class="card mb-4">
+    <div class="card-header">Loại Menu</div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <div class="datatable">
+            <table class="table table-bordered table-hover dataTable" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
@@ -29,28 +47,63 @@
                         <th>
                             @Html.DisplayNameFor(model => model.IsDeleted)
                         </th>
-                        <th></th>
+                        <th>#</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsActived)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsDeleted)
+                        </th>
+                        <th>#</th>
+                    </tr>
+                </tfoot>
 
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            <a href="/Admin/MenuTypes/Details/@item.ID">@Html.DisplayFor(modelItem => item.Name)</a>
+                            <a href="/Admin/MenuTypes/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Name)</a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IsActived)
+                            @{
+                                if (item.IsActived == true)
+                                {
+                                    <span class="badge badge-pill badge-success">Kích hoạt</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
+                                }
+                            }
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IsDeleted)
+                            @{
+                                if (item.IsDeleted == true)
+                                {
+                                    <span class="badge badge-pill badge-success">Đã xoá</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pill badge-danger">Chưa xoá</span>
+                                }
+                            }
                         </td>
-                        <td>
-                            @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })
+                        <td style="display:flex">
+                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/MenuTypes/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/MenuTypes/Delete/@item.ID"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 }

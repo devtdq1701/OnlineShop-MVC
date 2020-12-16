@@ -13,6 +13,7 @@ using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class ProductsController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
@@ -25,9 +26,47 @@ namespace OnlineShop.Areas.Admin.Controllers
                         join b in db.Brands on p.BrandID equals b.ID
                         select new ProductWithCategory { Product = p, category = c, brand = b };
             var model = query.ToList();
+            ViewBag.Category = db.ProductCategories.Where(x=>x.ParentID.HasValue).ToList();
+            ViewBag.Brand = db.Brands.Where(x => x.Status==true).ToList();
             return View(model);
         }
-
+        [HttpPost]
+        public ActionResult Index(long Category,int Brand,string txtSearch)
+        {
+            var query = from p in db.Products
+                        join c in db.ProductCategories on p.CategoryID equals c.ID
+                        join b in db.Brands on p.BrandID equals b.ID
+                        select new ProductWithCategory { Product = p, category = c, brand = b };
+            var model = query.ToList();
+            ViewBag.Category = db.ProductCategories.Where(x => x.ParentID.HasValue).ToList();
+            ViewBag.Brand = db.Brands.Where(x => x.Status == true).ToList();
+            if (String.IsNullOrEmpty(txtSearch) && Category == 0 && Brand==0)
+            {
+                ViewBag.Count = 0;
+            }
+            else
+            {
+                if (Category == 0)
+                {
+                    model = query.Where(x => x.Product.Title.Contains(txtSearch) && x.Product.BrandID==Brand).ToList();
+                }
+                else
+                {
+                    if (Brand == 0)
+                    {
+                        model = query.Where(x => x.Product.Title.Contains(txtSearch) && x.Product.CategoryID == Category).ToList();
+                    }
+                    else
+                    {
+                        model = query.Where(x =>x.Product.BrandID==Brand && x.Product.CategoryID == Category && x.Product.Title.Contains(txtSearch)).ToList();
+                    }
+                }
+                ViewBag.Count = model.Count;
+            }
+            
+            return View(model);
+            
+        }
         // GET: Admin/Products/Details/5
         public ActionResult Details(long? id)
         {

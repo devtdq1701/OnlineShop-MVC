@@ -10,6 +10,7 @@ using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class FootersController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

@@ -38,6 +38,7 @@
         [Display(Name = "Ảnh 3")]
         public string Images3rd { get; set; }
 
+
         [Display(Name = "Giá KM")]
         public decimal? Price { get; set; }
 

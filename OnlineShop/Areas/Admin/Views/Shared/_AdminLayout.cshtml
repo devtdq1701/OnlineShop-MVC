@@ -44,6 +44,9 @@
         .shadow {
             box-shadow: none;
         }
+        .datatable table.dataTable thead, .datatable table.dataTable tfoot {
+            color: #0061f2;
+        }
     </style>
 </head>
 <body id="page-top">
@@ -188,7 +191,7 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800">@RenderSection("header", required: true)</h1>
+                    <h1 class="h3 mb-4 text-gray-800">@RenderSection("header", required: false)</h1>
                     @if (TempData["AlertMessage"] != null)
                     {
                         <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">

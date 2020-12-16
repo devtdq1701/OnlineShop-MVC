@@ -18,19 +18,20 @@
             var $tr = $(this).closest('tr');
             $tr.remove();
             location.reload();
-        }</script>
+        }
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 }
-@section header{
-    Footer
-}
-
 <p>
     @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success btn-icon-split btn-padding" })
 </p>
-<div class="card shadow mb-4">
+<div class="card mb-4">
+    <div class="card-header">Footer</div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <div class="datatable">
+            <table class="table table-bordered table-hover dataTable" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
@@ -42,7 +43,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Status)
                         </th>
-                        <th>Tính năng</th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -56,7 +57,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Status)
                         </th>
-                        <th>Tính năng</th>
+                        <th>#</th>
                     </tr>
                 </tfoot>
 
@@ -64,7 +65,7 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Admin/Footers/Details/@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
+                            <a href="/Admin/Footers/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Title)</a>
                         </td>
                         <td>
                             @Html.Raw(item.ContentHtml)
@@ -82,8 +83,8 @@
                             }
                         </td>
                         <td style="display:flex">
-                            <a class="btn btn-primary btn-icon-split btn-padding" href="/Admin/Footers/Edit/@item.ID"><i class="far fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-icon-split btn-padding" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Footers/Delete/@item.ID"><i class="far fa-trash-alt"></i></a>
+                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Footers/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Footers/Delete/@item.ID"><i class="fa fa-trash"></i></a>                        
                         </td>
                     </tr>
                 }

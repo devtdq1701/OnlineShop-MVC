@@ -11,6 +11,7 @@ using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class NewsController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
@@ -19,7 +20,32 @@ namespace OnlineShop.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var newses = db.Newses.Include(n => n.Category);
+            ViewBag.Category = db.Categories.Where(x => x.Status == true).ToList();
             return View(newses.ToList());
+        }
+        [HttpPost]
+        public ActionResult Index(long Category, string txtSearch)
+        {
+            var model = db.Newses.Include(n => n.Category).ToList();
+            ViewBag.Category = db.Categories.Where(x => x.Status == true).ToList();
+            if (String.IsNullOrEmpty(txtSearch) && Category == 0)
+            {
+                ViewBag.Count = 0;
+            }
+            else
+            {
+                if (Category == 0)
+                {
+                    model = model.Where(x => x.Title.Contains(txtSearch)).ToList();
+                }
+                else
+                {
+
+                    model = model.Where(x => x.Title.Contains(txtSearch) && x.CategoryID==Category).ToList();
+                }
+                ViewBag.Count = model.Count;
+            }
+            return View(model);
         }
 
         // GET: Admin/News/Details/5

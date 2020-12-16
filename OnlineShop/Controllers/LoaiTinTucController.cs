@@ -9,6 +9,7 @@ using PagedList.Mvc;
 
 namespace OnlineShop.Controllers
 {
+    [HandleError]
     public class LoaiTinTucController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace OnlineShop.Controllers
 {
+    [HandleError]
     public class CartController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

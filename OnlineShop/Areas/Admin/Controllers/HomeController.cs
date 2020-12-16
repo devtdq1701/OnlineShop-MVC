@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class HomeController : BaseController
     {
         // GET: Admin/Home

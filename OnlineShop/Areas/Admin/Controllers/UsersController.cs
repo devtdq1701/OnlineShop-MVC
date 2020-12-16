@@ -11,6 +11,7 @@ using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class UsersController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

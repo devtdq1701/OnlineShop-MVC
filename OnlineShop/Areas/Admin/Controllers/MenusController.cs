@@ -10,6 +10,7 @@ using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class MenusController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();

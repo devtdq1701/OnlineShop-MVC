@@ -10,6 +10,7 @@ using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
+    [HandleError]
     public class SocialsController : Controller
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
