@@ -55,6 +55,13 @@
         [StringLength(20)]
         public string UpdatedBy { get; set; }
 
+        [Display(Name = "Ngày tạo")]
+        public DateTime? CreatedDate { get; set; }
+
+        [StringLength(10)]
+        [Display(Name = "Người tạo")]
+        public string CreatedBy { get; set; }
+
         public DateTime? LastLoginDate { get; set; }
 
         public DateTime? LastChangePassword { get; set; }

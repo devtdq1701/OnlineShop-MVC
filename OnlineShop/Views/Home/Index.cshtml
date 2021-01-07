@@ -12,8 +12,6 @@
 @section title{
     <title>TNC Store</title>
 }
-@section css {
-}
 @section js{
     <script>
         var swiper = new Swiper('.product-container', {
@@ -156,12 +154,26 @@
         </div>
     </div>
 }
+@section MainNavMenu{
+    @{Html.RenderAction("MainNavMenu", "Home");}
+}
+@section MainNav{
+    @{Html.RenderAction("MainNavMenu", "Home");}
+}
 @section HomeCategory{
     @{Html.RenderAction("HomeCategory", "Home"); }
 }
 
 @{Html.RenderAction("ListNewProduct", "Home"); }
 @{Html.RenderAction("ListSaleProduct", "Home"); }
-@{Html.RenderAction("Brand", "Home"); }
+@section Brands{
+    @{Html.RenderAction("Brand", "Home"); }
+}
+@section Videos{
+    @{Html.RenderAction("Videos", "Home"); }
+}
+@section Feedback{
+    @{Html.RenderAction("Feedback", "Home"); }
+}
 
 

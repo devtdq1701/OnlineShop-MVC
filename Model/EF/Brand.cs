@@ -29,17 +29,17 @@
         [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
-        [Display(Name = "Thứ tự")]
+        [Display(Name = "Thứ tự hiển thị")]
         public int? Order { get; set; }
 
-        [Display(Name = "Ngày tạo")]
+        [Display(Name = "Thời gian tạo")]
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(20)]
         [Display(Name = "Người tạo")]
         public string CreatedBy { get; set; }
 
-        [Display(Name = "Ngày sửa")]
+        [Display(Name = "Thời gian sửa")]
         public DateTime? UpdatedDate { get; set; }
 
         [StringLength(20)]

@@ -81,10 +81,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 news.CreatedDate = now;
-                news.CreatedBy = Session["username"].ToString();
+                news.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 news.MetaTitle = ConvertToSEO.Convert(news.ShortTitle);
                 db.Newses.Add(news);
                 db.SaveChanges();
+                SetAlert("Thêm bài viết thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -120,23 +121,23 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(news).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 news.UpdatedDate = now;
-                news.UpdatedBy = Session["username"].ToString();
+                news.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 news.MetaTitle = ConvertToSEO.Convert(news.ShortTitle);
                 db.SaveChanges();
+                SetAlert("Sửa bài viết thành công", "success");
                 return RedirectToAction("Index");
             }
             SetViewBag(news.CategoryID);
             return View(news);
         }
 
-        [HttpDelete]
         public ActionResult Delete(long id)
         {
 
             News news = db.Newses.Find(id);
             db.Newses.Remove(news);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Model.EF;
+using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -55,9 +56,10 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 menu.CreatedDate = now;
-                menu.CreatedBy = Session["username"].ToString();
+                menu.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Menus.Add(menu);
                 db.SaveChanges();
+                SetAlert("Thêm menu thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -92,24 +94,23 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 menu.UpdatedDate = now;
-                menu.UpdatedBy = Session["username"].ToString();
+                menu.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
+                SetAlert("Sửa menu thành công", "success");
                 return RedirectToAction("Index");
             }
             ViewBag.GroupID = new SelectList(db.MenuTypes, "ID", "Name", menu.GroupID);
             return View(menu);
         }
 
-        // GET: Admin/Menus/Delete/5
-        [HttpDelete]
         public ActionResult Delete(string id)
         {
 
             Menu menu = db.Menus.Find(id);
             db.Menus.Remove(menu);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

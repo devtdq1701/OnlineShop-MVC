@@ -50,10 +50,9 @@ namespace OnlineShop.Areas.Admin.Controllers
                 if (result==1)
                 {
                     var user = GetById(model.UserName);
-                    Session["username"] = user.UserName;
                     var userSession = new UserLogin();
                     userSession.UserName = user.UserName;
-                    Session.Add(CommonConstants.USER_SESSION,userSession);
+                    Session.Add(CommonConstants.USER_SESSION,userSession.UserName);
                     return RedirectToAction("Index","Home");
                 }
                 else if(result==0)
@@ -71,7 +70,10 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
         public ActionResult Logout()
         {
-            Session.Clear();
+            User user = db.Users.Find(Session[CommonConstants.USER_SESSION].ToString());
+            user.LastLoginDate = DateTime.Now;
+            db.SaveChanges();
+            Session.Remove(CommonConstants.USER_SESSION);
             return RedirectToAction("Index","Login");
         }
     }

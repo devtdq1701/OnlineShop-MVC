@@ -14,13 +14,44 @@
     <!-- Page level custom scripts -->
     <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
     <script type="text/javascript">
-        function remove() {
-            var $tr = $(this).closest('tr');
-            $tr.remove();
-            location.reload();
-        }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.btnDelete').each(function () {
+            var ID = $(this).data('id');
+            $(this).off('click').on('click', function () {
+                swal({
+                    title: "Bạn chắc chứ?",
+                    text: "Xoá footer " + ID,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/Footers/Delete/',
+                                data: {
+                                    id: ID
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (res) {
+                                    if (res.status == true) {
+                                        swal("Xoá footer thành công!", {
+                                            icon: "success",
+                                        });
+                                        var $tr = $(this).closest('tr');
+                                        $tr.remove();
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("Footer vẫn được giữ nguyên!");
+                        }
+                    });
+            });
         });
     </script>
 }
@@ -61,33 +92,35 @@
                     </tr>
                 </tfoot>
 
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="/Admin/Footers/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Title)</a>
-                        </td>
-                        <td>
-                            @Html.Raw(item.ContentHtml)
-                        </td>
-                        <td>
-                            @{
-                                if (item.Status == true)
-                                {
-                                    <span class="badge badge-pill badge-success">Kích hoạt</span>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="/Admin/Footers/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Title)</a>
+                            </td>
+                            <td>
+                                @Html.Raw(item.ContentHtml)
+                            </td>
+                            <td>
+                                @{
+                                    if (item.Status == true)
+                                    {
+                                        <span class="badge badge-pill badge-success">Kích hoạt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
+                                    }
                                 }
-                                else
-                                {
-                                    <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
-                                }
-                            }
-                        </td>
-                        <td style="display:flex">
-                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Footers/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Footers/Delete/@item.ID"><i class="fa fa-trash"></i></a>                        
-                        </td>
-                    </tr>
-                }
+                            </td>
+                            <td style="display:flex">
+                                <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Footers/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                                <a class="btnDelete btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-id="@item.ID"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
             </table>
         </div>

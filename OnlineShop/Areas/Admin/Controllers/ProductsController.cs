@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Xml.Linq;
 using Model.EF;
 using OnlineShop.Areas.Admin.Models;
 using OnlineShop.Common;
@@ -46,7 +48,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             else
             {
-                if (Category == 0)
+                if (Category == 0 && Brand == 0)
+                {
+                    model = query.Where(x => x.Product.Title.Contains(txtSearch)).ToList();
+                }
+                else if (Category == 0)
                 {
                     model = query.Where(x => x.Product.Title.Contains(txtSearch) && x.Product.BrandID==Brand).ToList();
                 }
@@ -95,33 +101,116 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View();
         }
 
+        public JsonResult AddProduct(Product p)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var listImages = serializer.Deserialize<List<string>>(p.Images);
+            XElement xElement = new XElement("Images");
+            foreach (var item in listImages)
+            {
+                xElement.Add(new XElement("Images", item));
+            }
+            var product = new Product();
+            product.Images = xElement.ToString();
+            product.Price = p.Price;
+            product.OldPrice = p.OldPrice;
+            long percent = 0;
+            if (product.OldPrice.HasValue)
+            {
+                percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
+            }
+            DateTime now = DateTime.Now;
+            product.ViewCount = 0;
+            product.CreatedDate = now;
+            product.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
+            product.PercentSale = percent;
+            
+            product.Title = p.Title;
+            product.MetaTitle = ConvertToSEO.Convert(product.Title);
+            product.Code = p.Code;
+            product.Description = p.Description;
+            product.Thumb = p.Thumb;
+            product.MetaKeywords = p.MetaKeywords;
+            product.MetaDescription = p.MetaDescription;
+            product.Quantity = p.Quantity;
+            product.CategoryID = p.CategoryID;
+            product.BrandID = p.BrandID;
+            product.UpTopHot = p.UpTopHot;
+            product.Detail = p.Detail;
+            product.Guarantee = p.Guarantee;
+            product.Specification = p.Specification;
+            product.Video = p.Video;
+            db.Products.Add(product);
+
+            db.SaveChanges();
+            return Json(new { status = true });
+        }
+
+        public JsonResult EditProduct(Product p)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var listImages = serializer.Deserialize<List<string>>(p.Images);
+            XElement xElement = new XElement("Images");
+            foreach (var item in listImages)
+            {
+                xElement.Add(new XElement("Images", item));
+            }
+            var product = db.Products.Find(p.ID);
+            product.Images = xElement.ToString();
+            product.Price = p.Price;
+            product.OldPrice = p.OldPrice;
+            long percent = 0;
+            if (product.OldPrice.HasValue)
+            {
+                percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
+            }
+            DateTime now = DateTime.Now;
+            product.UpdatedDate = now;
+            product.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
+            product.Title = p.Title;
+            product.MetaTitle = ConvertToSEO.Convert(product.Title);
+            product.PercentSale = percent;
+            product.Code = p.Code;
+            product.Description = p.Description;
+            product.Thumb = p.Thumb;
+            product.Quantity = p.Quantity;
+            product.CategoryID = p.CategoryID;
+            product.BrandID = p.BrandID;
+            product.UpTopHot = p.UpTopHot;
+            product.Detail = p.Detail;
+            product.Guarantee = p.Guarantee;
+            product.Specification = p.Specification;
+            product.Video = p.Video;
+            db.SaveChanges();
+            return Json(new { status = true });
+        }
         // POST: Admin/Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                long percent = 0;
-                if (product.OldPrice.HasValue)
-                {
-                    percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
-                }
-                DateTime now = DateTime.Now;
-                product.ViewCount = 0;
-                product.CreatedDate = now;
-                product.CreatedBy = Session["username"].ToString();
-                product.MetaTitle = ConvertToSEO.Convert(product.Title);
-                product.PercentSale = percent;
-                db.Products.Add(product);
-                db.SaveChanges();
-                SetAlert("Thêm product thành công", "success");
-                return RedirectToAction("Index");
-            }
-            return View(product);
-        }
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult Create([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        long percent = 0;
+        //        if (product.OldPrice.HasValue)
+        //        {
+        //            percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
+        //        }
+        //        DateTime now = DateTime.Now;
+        //        product.ViewCount = 0;
+        //        product.CreatedDate = now;
+        //        product.CreatedBy = Session["username"].ToString();
+        //        product.MetaTitle = ConvertToSEO.Convert(product.Title);
+        //        product.PercentSale = percent;
+        //        db.Products.Add(product);
+        //        db.SaveChanges();
+        //        SetAlert("Thêm product thành công", "success");
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(product);
+        //}
 
         // GET: Admin/Products/Edit/5
         public ActionResult Edit(long? id)
@@ -135,6 +224,22 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            var images = product.Images;
+            XElement xImages;
+            List<string> listImagesReturn = new List<string>();
+            if (images == null)
+            {
+                listImagesReturn = null;
+            }
+            else
+            {
+                xImages = XElement.Parse(images);
+                foreach (XElement element in xImages.Elements())
+                {
+                    listImagesReturn.Add(element.Value);
+                }
+            }
+            ViewBag.Images = listImagesReturn;
             SetViewBag(product.CategoryID);
             return View(product);
         }
@@ -142,41 +247,39 @@ namespace OnlineShop.Areas.Admin.Controllers
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(product).State = EntityState.Modified;
-                long percent = 0;
-                if (product.OldPrice.HasValue)
-                {
-                    percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
-                }
-                DateTime now = DateTime.Now;
-                product.UpdatedDate = now;
-                product.UpdatedBy = Session["username"].ToString();
-                product.MetaTitle = ConvertToSEO.Convert(product.Title);
-                product.PercentSale = percent;
-                db.SaveChanges();
-                SetAlert("Sửa product thành công", "success");
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult Edit([Bind(Include = "ID,Title,Code,MetaTitle,Description,Images,Images2nd,Images3rd,Price,OldPrice,MetaKeywords,MetaDescription,Quantity,CreatedDate,CreatedBy,UpdatedDate,UpdatedBy,CategoryID,ViewCount,BrandID,UpTopHot,Detail,Guarantee,Video,Specification,PercentSale")] Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(product).State = EntityState.Modified;
+        //        long percent = 0;
+        //        if (product.OldPrice.HasValue)
+        //        {
+        //            percent = Convert.ToInt64((product.OldPrice - product.Price) / product.OldPrice * 100);
+        //        }
+        //        DateTime now = DateTime.Now;
+        //        product.UpdatedDate = now;
+        //        product.UpdatedBy = Session["username"].ToString();
+        //        product.MetaTitle = ConvertToSEO.Convert(product.Title);
+        //        product.PercentSale = percent;
+        //        db.SaveChanges();
+        //        SetAlert("Sửa product thành công", "success");
+        //        return RedirectToAction("Index");
+        //    }
 
-            SetViewBag(product.CategoryID);
-            return View(product);
-        }
+        //    SetViewBag(product.CategoryID);
+        //    return View(product);
+        //}
 
-        [HttpDelete]
-        public ActionResult Delete(long id)
+        public JsonResult Delete(long id)
         {
 
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
             db.SaveChanges();
-            SetAlert("Xoá product thành công", "success");
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

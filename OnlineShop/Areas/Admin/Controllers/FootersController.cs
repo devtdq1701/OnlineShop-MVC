@@ -11,7 +11,7 @@ using Model.EF;
 namespace OnlineShop.Areas.Admin.Controllers
 {
     [HandleError]
-    public class FootersController : Controller
+    public class FootersController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
 
@@ -54,6 +54,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 db.Footers.Add(footer);
                 db.SaveChanges();
+                SetAlert("Thêm footer thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -86,19 +87,19 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 db.Entry(footer).State = EntityState.Modified;
                 db.SaveChanges();
+                SetAlert("Sửa footer thành công", "success");
                 return RedirectToAction("Index");
             }
             return View(footer);
         }
 
-        [HttpDelete]
         public ActionResult Delete(string id)
         {
 
             Footer footer = db.Footers.Find(id);
             db.Footers.Remove(footer);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status= true });
         }
 
 

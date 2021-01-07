@@ -13,7 +13,7 @@
     </style>
 }
 @section header{
-    Chi tiết nhãn hàng @Model.ID
+    Chi tiết nhãn hàng @Model.Title
 }
 
     <div>
@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Logo)</th>
-                <td><img class="img-fluid img-custom" src="@Url.Content(""+Html.DisplayFor(model => model.Logo))" alt=""></td>
+                <td><img class="img-fluid img-custom" src="@Html.DisplayFor(model => model.Logo)" alt=""></td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(model => model.Description)</th>

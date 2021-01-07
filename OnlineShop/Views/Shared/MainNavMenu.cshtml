@@ -5,3 +5,15 @@
 {
     <a href="@item.Link" target="@item.Target">@item.Text</a>
 }
+    <div class="parent">
+        <a href="@ViewBag.Link" target="_self">@ViewBag.Username</a>
+        @if (ViewBag.Username != "Đăng nhập")
+        {
+        <div class="arrow_box">
+            <a href="/dang-xuat">Đăng xuất</a>
+            <a href="/dang-xuat">Xem hồ sơ</a>
+        </div>
+        }
+    </div>
+
+

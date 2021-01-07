@@ -24,16 +24,16 @@ namespace OnlineShop.Areas.Admin.Controllers
             TempData["AlertMessage"] = message;
             if(type == "success")
             {
-                TempData["AlertType"] = "alert-success";
+                TempData["AlertType"] = "success";
 
             }
             else if(type == "warning")
             {
-                TempData["AlertType"] = "alert-warning";
+                TempData["AlertType"] = "warning";
             }
             else if (type == "error")
             {
-                TempData["AlertType"] = "alert-danger";
+                TempData["AlertType"] = "danger";
             }
         }
     }

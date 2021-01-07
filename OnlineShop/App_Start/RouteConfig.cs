@@ -13,6 +13,18 @@ namespace OnlineShop
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                name: "Login and register",
+                url: "dang-nhap",
+                defaults: new { controller = "Home", action = "Login", id = UrlParameter.Optional },
+                namespaces: new[] { "OnlineShop.Controllers" }
+            );
+            routes.MapRoute(
+                name: "Dang xuat",
+                url: "dang-xuat",
+                defaults: new { controller = "Home", action = "Logout", id = UrlParameter.Optional },
+                namespaces: new[] { "OnlineShop.Controllers" }
+            );
+            routes.MapRoute(
                 name: "Tim kiem",
                 url: "tim-kiem",
                 defaults: new { controller = "Product", action = "Search", id = UrlParameter.Optional },
@@ -78,6 +90,7 @@ namespace OnlineShop
                 defaults: new { controller = "ParentCategory", action = "Category", id = UrlParameter.Optional },
                 namespaces: new[] { "OnlineShop.Controllers" }
             );
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

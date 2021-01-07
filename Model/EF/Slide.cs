@@ -29,11 +29,11 @@
         [Display(Name = "Hình ảnh")]
         public string Images { get; set; }
 
-        [Display(Name = "Thứ tự")]
+        [Display(Name = "Thứ tự hiển thị")]
         public int Order { get; set; }
 
         [StringLength(50)]
-        [Display(Name = "Loại Slide")]
+        [Display(Name = "Loại Banner")]
         public string GroupID { get; set; }
 
         [Display(Name = "Tình trạng")]

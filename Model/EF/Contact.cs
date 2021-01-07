@@ -1,4 +1,4 @@
-namespace Model.EF
+﻿namespace Model.EF
 {
     using System;
     using System.Collections.Generic;
@@ -8,21 +8,30 @@ namespace Model.EF
 
     public partial class Contact
     {
-        [Key]
-        [Column(Order = 0)]
-        [StringLength(50)]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Display(Name = "Username")]
+        [StringLength(20)]
+        public string UserID { get; set; }
+
+        [Required]
         [StringLength(250)]
-        public string Title { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-        [Column(TypeName = "ntext")]
-        public string ContentHtml { get; set; }
+        [Required]
+        [StringLength(250)]
+        [Display(Name = "Họ và tên")]
+        public string FullName { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        public bool Status { get; set; }
+        [Required]
+        [Display(Name = "Nội dung")]
+        public string Enquiry { get; set; }
+
+        [Display(Name = "Thời gian gửi")]
+        public DateTime SentDate { get; set; }
+
+        [Display(Name = "Trạng thái")]
+        public bool IsReaded { get; set; }
     }
 }

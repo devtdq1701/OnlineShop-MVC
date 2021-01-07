@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Model.EF;
+using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -53,7 +54,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 brand.CreatedDate = now;
-                brand.CreatedBy = Session["username"].ToString();
+                brand.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Brands.Add(brand);
                 db.SaveChanges();
                 SetAlert("Thêm nhãn hàng thành công", "success");
@@ -90,7 +91,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(brand).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 brand.UpdatedDate = now;
-                brand.UpdatedBy = Session["username"].ToString();
+                brand.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.SaveChanges();
                 SetAlert("Sửa nhãn hàng thành công", "success");
                 return RedirectToAction("Index");
@@ -98,15 +99,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(brand);
         }
 
-        [HttpDelete]
-        public ActionResult Delete(long id)
+        public JsonResult Delete(long id)
         {
 
             Brand brand = db.Brands.Find(id);
             db.Brands.Remove(brand);
             db.SaveChanges();
-            SetAlert("Xoá nhãn hàng thành công", "success");
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

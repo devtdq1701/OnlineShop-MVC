@@ -58,11 +58,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 productCategory.CreatedDate= now;
-                productCategory.CreatedBy = Session["username"].ToString();
+                productCategory.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 productCategory.MetaTitle = ConvertToSEO.Convert(productCategory.Title);
                 db.ProductCategories.Add(productCategory);
                 db.SaveChanges();
-                SetAlert("Thêm thành công", "success");
+                SetAlert("Thêm danh mục sản phẩm thành công", "success");
                 return RedirectToAction("Index");
             }
             SetViewBag();
@@ -97,10 +97,10 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(productCategory).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 productCategory.UpdatedDate = now;
-                productCategory.UpdatedBy = Session["username"].ToString();
+                productCategory.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 productCategory.MetaTitle = ConvertToSEO.Convert(productCategory.Title);
                 db.SaveChanges();
-                SetAlert("Sửa thành công", "success");
+                SetAlert("Sửa danh mục sản phẩm thành công", "success");
                 return RedirectToAction("Index");
             }
             SetViewBag(productCategory.ID);
@@ -108,14 +108,13 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
 
-        [HttpDelete]
         public ActionResult Delete(long id)
         {
 
             ProductCategory productCategory = db.ProductCategories.Find(id);
             db.ProductCategories.Remove(productCategory);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

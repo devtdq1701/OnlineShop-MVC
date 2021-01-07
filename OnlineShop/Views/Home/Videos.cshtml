@@ -1,0 +1,31 @@
+﻿@model Model.EF.News
+<div class="block block--home">
+    <div class="block__header">
+        <span class="block__header__title">TNC CHANNEL</span>
+    </div>
+
+    <div class="block__content home__tnc__channel">
+        <div class="tnc__big">
+            @foreach (var item in ViewBag.NewestVideo)
+            {
+                <div class="tnc_thumb">
+                    <img src="@item.Images" alt="">
+                </div>
+                <a class="tnc__title" href="/tin-tuc/chi-tiet/@item.MetaTitle-@item.ID">@item.Title</a>
+            }
+        </div>
+        <div class="tnc__list">
+            @foreach (var item in ViewBag.VideoNewses)
+            {
+                <div class="tnc__list__item">
+                    <div class="tnc_thumb">
+                        <img src="@item.Images" alt="">
+                    </div>
+                    <a class="tnc__title" href="/tin-tuc/chi-tiet/@item.MetaTitle-@item.ID">@item.Title</a>
+                </div>
+            }
+            </div>
+    </div>
+
+    <div class="block__readmore"> <a href="/tin-tuc/tin-tuc-video-7">Xem thêm video</a> </div>
+</div>

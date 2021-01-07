@@ -7,11 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Model.EF;
+using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
     [HandleError]
-    public class SocialsController : Controller
+    public class SocialsController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
 
@@ -54,9 +55,10 @@ namespace OnlineShop.Areas.Admin.Controllers
 
                 DateTime now = DateTime.Now;
                 social.CreatedDate = now;
-                social.CreatedBy = Session["username"].ToString();
+                social.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Socials.Add(social);
                 db.SaveChanges();
+                SetAlert("Thêm social thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -90,9 +92,10 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(social).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 social.UpdatedDate = now;
-                social.UpdatedBy = Session["username"].ToString();
+                social.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Socials.Add(social);
                 db.SaveChanges();
+                SetAlert("Sửa social thành công", "success");
                 return RedirectToAction("Index");
             }
             return View(social);
@@ -113,14 +116,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(social);
         }
 
-        [HttpDelete]
         public ActionResult Delete(int id)
         {
 
             Social social = db.Socials.Find(id);
             db.Socials.Remove(social);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

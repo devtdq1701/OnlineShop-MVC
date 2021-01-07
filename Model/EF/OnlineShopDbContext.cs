@@ -16,6 +16,8 @@ namespace Model.EF
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Footer> Footers { get; set; }
         public virtual DbSet<GroupSlide> GroupSlides { get; set; }
@@ -38,7 +40,6 @@ namespace Model.EF
         public virtual DbSet<UserActivityLog> UserActivityLogs { get; set; }
         public virtual DbSet<UserGroup> UserGroups { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -96,6 +97,14 @@ namespace Model.EF
                 .HasMany(e => e.Newses)
                 .WithRequired(e => e.Category)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Comment>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Contact>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Feedback>()
                 .Property(e => e.Phone)
@@ -392,10 +401,6 @@ namespace Model.EF
                 .WithRequired(e => e.User)
                 .HasForeignKey(e => e.GroupID)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Contact>()
-                .Property(e => e.ID)
-                .IsUnicode(false);
         }
     }
 }

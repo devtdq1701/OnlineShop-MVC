@@ -5,6 +5,7 @@
     font-family: "Font Awesome 5 Pro";
     font-weight: 900;
     color: #EDEDED;
+    overflow: hidden
 }
 
 .star::before{
@@ -12,17 +13,15 @@
 }
 
 .fullStar {
-	color: #FCC00B;
+    margin-right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    overflow: hidden;
+    color: #FCC00B;
 }
 
-.stars {
-	overflow: hidden
-}
-
-.tmp_es {
-	
-}
-
-.tmp_fs {
-	color: #FCC00B;
+.fullStar::after {
+   content: "\f005";
 }

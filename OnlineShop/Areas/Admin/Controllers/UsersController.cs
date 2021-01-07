@@ -30,7 +30,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(db.Users.Where(x=>x.GroupID== "MEMBER").ToList());
         }
 
         // GET: Admin/Users/Details/5
@@ -45,8 +45,15 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            user.Password = Encryptor.MD5Hash(user.Password);
-            return View(user);
+            if (user.GroupID == "ADMIN")
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                user.Password = Encryptor.MD5Hash(user.Password);
+                return View(user);
+            }
         }
 
         // GET: Admin/Users/Create
@@ -61,7 +68,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserName,Password,PasswordLevel2,Email,Mobile,Name,Address,Sex,UpdatedDate,UpdatedBy,LastLoginDate,LastChangePassword,GroupID")] User user)
+        public ActionResult Create([Bind(Include = "UserName,Password,PasswordLevel2,Email,Mobile,Name,Address,Sex,UpdatedDate,UpdatedBy,LastLoginDate,LastChangePassword,GroupID,CreatedDate,CreatedBy")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +83,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                     DateTime now = DateTime.Now;
                     user.UpdatedDate = now;
                     user.Password = Encryptor.MD5Hash(user.Password);
-                    user.UpdatedBy = Session["username"].ToString();
+                    user.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                     db.Users.Add(user);
                     db.SaveChanges();
                     SetAlert("Thêm user thành công", "alert-success");
@@ -100,8 +107,16 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GroupID = new SelectList(db.UserGroups.Where(x => x.IsActived == true && x.IsDeleted == false).ToList(), "ID", "Name");
-            return View(user);
+            if (user.GroupID == "ADMIN")
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.GroupID = new SelectList(db.UserGroups.Where(x => x.IsActived == true && x.IsDeleted == false).ToList(), "ID", "Name");
+                return View(user);
+            }
+            
         }
 
         // POST: Admin/Users/Edit/5
@@ -109,14 +124,15 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserName,Password,PasswordLevel2,Email,Mobile,Name,Address,Sex,UpdatedDate,UpdatedBy,LastLoginDate,LastChangePassword,GroupID")] User user)
+        public ActionResult Edit([Bind(Include = "UserName,Password,PasswordLevel2,Email,Mobile,Name,Address,Sex,UpdatedDate,UpdatedBy,LastLoginDate,LastChangePassword,GroupID,CreatedDate,CreatedBy")] User user)
         {
+
             if (ModelState.IsValid)
             {
                 DateTime now = DateTime.Now;
                 user.UpdatedDate = now;
                 user.Password = Encryptor.MD5Hash(user.Password);
-                user.UpdatedBy = Session["username"].ToString();
+                user.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 SetAlert("Sửa user thành công", "success");
@@ -125,15 +141,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             ViewBag.GroupID = new SelectList(db.UserGroups.Where(x => x.IsActived == true && x.IsDeleted == false).ToList(), "ID", "Name");
             return View(user);
         }
-        [HttpDelete]
         public ActionResult Delete(string id)
         {
 
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
-            SetAlert("Xoá user thành công", "success");
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

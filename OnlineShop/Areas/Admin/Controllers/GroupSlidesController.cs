@@ -11,7 +11,7 @@ using Model.EF;
 namespace OnlineShop.Areas.Admin.Controllers
 {
     [HandleError]
-    public class GroupSlidesController : Controller
+    public class GroupSlidesController : BaseController
     {
         private OnlineShopDbContext db = new OnlineShopDbContext();
 

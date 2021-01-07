@@ -47,19 +47,25 @@
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Loại Menu")]
         public string GroupID { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Danh mục cha")]
         public string ParentID { get; set; }
 
+        [Display(Name = "Thời gian tạo")]
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(20)]
+        [Display(Name = "Tạo bởi")]
         public string CreatedBy { get; set; }
 
         [StringLength(20)]
+        [Display(Name = "Thời gian sửa")]
         public string UpdatedBy { get; set; }
 
+        [Display(Name = "Sửa bởi")]
         public DateTime? UpdatedDate { get; set; }
 
         public virtual MenuType MenuType { get; set; }

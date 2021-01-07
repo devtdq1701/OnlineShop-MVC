@@ -20,15 +20,45 @@
     <!-- Page level custom scripts -->
     <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
     <script type="text/javascript">
-        function remove() {
-            var $tr = $(this).closest('tr');
-            $tr.remove();
-            location.reload();
-        }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-
+        $('.btnDelete').each(function () {
+            var ID = $(this).data('id');
+            $(this).off('click').on('click', function () {
+                swal({
+                    title: "Bạn chắc chứ?",
+                    text: "Xoá bài viết " + ID,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/News/Delete/',
+                                data: {
+                                    id: ID
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (res) {
+                                    if (res.status == true) {
+                                        swal("Xoá bài viết thành công!", {
+                                            icon: "success",
+                                        });
+                                        var $tr = $(this).closest('tr');
+                                        $tr.remove();
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("Bài viết vẫn được giữ nguyên!");
+                        }
+                    });
+            });
+        });
     </script>
 }
 
@@ -97,29 +127,31 @@
                         <th>#</th>
                     </tr>
                 </tfoot>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a data-toggle="tooltip" data-placement="top" title="Xem chi tiết" href="/Admin/News/Details/@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Title)
-                        </td>
-                        <td>
-                            <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem => item.Images)" alt="">
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ViewCount)
-                        </td>
-                        <td style="display: flex">
-                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/News/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/News/Delete/@item.ID"><i class="fa fa-trash"></i></a>
-                            @*@Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                                @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
-                        </td>
-                    </tr>
-                }
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a data-toggle="tooltip" data-placement="top" title="Xem chi tiết" href="/Admin/News/Details/@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Title)
+                            </td>
+                            <td>
+                                <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem => item.Images)" alt="">
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ViewCount)
+                            </td>
+                            <td style="display: flex">
+                                <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/News/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                                <a class="btnDelete btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-id="@item.ID"><i class="fa fa-trash"></i></a>
+                                @*@Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
+                    @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>

@@ -61,10 +61,11 @@ namespace OnlineShop.Areas.Admin.Controllers
                 }
                 DateTime now = DateTime.Now;
                 category.CreatedDate = now;
-                category.CreatedBy = Session["username"].ToString();
+                category.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 category.MetaTitle = ConvertToSEO.Convert(category.Title);
                 db.Categories.Add(category);
                 db.SaveChanges();
+                SetAlert("Thêm danh mục bài viết thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -98,22 +99,22 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(category).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 category.UpdatedDate = now;
-                category.UpdatedBy = Session["username"].ToString();
+                category.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 category.MetaTitle = ConvertToSEO.Convert(category.Title);
                 db.SaveChanges();
+                SetAlert("Sửa danh mục bài viết thành công", "success");
                 return RedirectToAction("Index");
             }
             return View(category);
         }
 
-        [HttpDelete]
         public ActionResult Delete(long id)
         {
 
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

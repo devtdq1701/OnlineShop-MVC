@@ -1,15 +1,48 @@
-﻿var cart = {
+﻿jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity-wrap input');
+jQuery('.quantity').each(function () {
+    var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+    btnUp.click(function () {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+            var newVal = oldValue;
+        } else {
+            var newVal = oldValue + 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+    });
+
+    btnDown.click(function () {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+            var newVal = oldValue;
+        } else {
+            var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+    });
+
+});
+var cart = {
     init: function () {
         cart.regEvents();
     },
     regEvents: function () {
         $('.header__cart').off('click').on('click', function () {
-            if ($('.head__cart__amount').text() == "0") {
-                $('#empty-alert').show();
-                $('#empty-alert').delay(1000).fadeOut(500);
-            } else {
-                window.location.href = "/gio-hang";
-            }
+            //if ($('.head__cart__amount').text() == "0") {
+            //    $('#empty-alert').show();
+            //    $('#empty-alert').delay(1000).fadeOut(500);
+            //} else {
+            //    window.location.href = "/gio-hang";
+            //}
+            location.href = "/gio-hang";
         });
         $('#btnContinue').off('click').on('click', function () {
             window.location.href = "/";
@@ -47,9 +80,14 @@
                 dataType: 'json',
                 type: 'POST',
                 success: function (res) {
-                    $('.head__cart__amount').html(res.Qty);
-                    $('#success-alert').show();
-                    $('#success-alert').delay(1000).fadeOut(500);
+                    if (res.status == true) {
+                        $('.head__cart__amount').html(res.Qty);
+                        $('#success-alert').show();
+                        $('#success-alert').delay(1000).fadeOut(500);
+                    }
+                    else {
+                        location.href = "/dang-nhap";
+                    }
                 }
             })
         });
@@ -63,9 +101,14 @@
                 dataType: 'json',
                 type: 'POST',
                 success: function (res) {
-                    $('.head__cart__amount').html(res.Qty);
-                    $('#success-alert').show();
-                    $('#success-alert').delay(1000).fadeOut(500);
+                    if (res.status == true) {
+                        $('.head__cart__amount').html(res.Qty);
+                        $('#success-alert').show();
+                        $('#success-alert').delay(1000).fadeOut(500);
+                    }
+                    else {
+                        location.href = "/dang-nhap";
+                    }
                 }
             })
         });

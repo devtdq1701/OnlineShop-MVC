@@ -18,14 +18,23 @@ namespace OnlineShop.Controllers
         private const string CartSession = "CartSession";
         public ActionResult Index()
         {
-            var cart = Session[CartSession];
-            var list = new List<CartItem>();
-            if(cart != null)
+            var sess = Session[SessionMember.UserSession];
+            if (sess == null)
             {
-                list = (List<CartItem>)cart;
-                return View(list);
+                return RedirectToAction("Login", "Home");
             }
-            return RedirectToAction("Index","Home");
+            else
+            {
+                var cart = Session[CartSession];
+                var list = new List<CartItem>();
+                if (cart != null)
+                {
+                    list = (List<CartItem>)cart;
+                    return View(list);
+                }
+                return RedirectToAction("Index", "Home");
+            }
+                
         }
         [HttpGet]
         public ActionResult CheckOut()
@@ -44,19 +53,24 @@ namespace OnlineShop.Controllers
         public ActionResult CheckOut(string ShipName, string ShipEmail, string ShipMobile, string ShipAddress, string Note)
         {
             var order = new Order();
+            var cart = (List<CartItem>)Session[CartSession];
             order.CreatedDate = DateTime.Now;
             order.ShipName = ShipName;
             order.ShipEmail = ShipEmail;
             order.ShipMobile = ShipMobile;
             order.ShipAddress = ShipAddress;
+            order.CustomerID = Session[SessionMember.UserSession].ToString();
             order.Note = Note;
-            order.Status = "Đang giao";
+            order.TotalPrice= cart.Sum(x => x.Quantity * x.Product.Price);
+            order.Status = "Chưa xử lý";
             db.Orders.Add(order);
             db.SaveChanges();
             var id = order.ID;
-            var cart = (List<CartItem>)Session[CartSession];
+            
             foreach (var item in cart)
             {
+                Product product = db.Products.Find(item.Product.ID);
+                product.Quantity -= item.Quantity;
                 var orderDetail = new OrderDetail();
                 orderDetail.ProductID = item.Product.ID;
                 orderDetail.OrderID = id;
@@ -75,6 +89,8 @@ namespace OnlineShop.Controllers
             var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
             new MailHelper().SendEmail(ShipEmail, "Xác nhận đơn hàng mới từ Shop Gaming", content);
             new MailHelper().SendEmail(toEmail,"Đơn hàng mới từ Shop Gaming", content);
+            Session.Remove(SessionMember.CartSession);
+
             return Redirect("/hoan-thanh");
         }
         public JsonResult Delete(long id)
@@ -120,45 +136,54 @@ namespace OnlineShop.Controllers
         {
             var product = db.Products.Find(id);
             var cart = Session[CartSession];
-            if (cart != null)
+            var sess = Session[SessionMember.UserSession];
+            if (sess == null)
             {
-                var list = (List<CartItem>)cart;
-                if (list.Exists(x => x.Product.ID == id))
-                {
-                    foreach (var item in list)
-                    {
-                        if (item.Product.ID == id)
-                        {
-                            item.Quantity += quantity;
-                        }
-                    }
-                }
-                else
-                {
-                    var item = new CartItem();
-                    item.Product = product;
-                    item.Quantity = quantity;
-                    list.Add(item);
-                }
-                Session[CartSession] = list;
+                return Json(new { status = false });
             }
             else
             {
-                //tạo mới cart item
-                var item = new CartItem();
-                item.Product = product;
-                item.Quantity = quantity;
-                var list = new List<CartItem>();
-                list.Add(item);
-                //gán vào session
-                Session[CartSession] = list;
+                if (cart != null)
+                {
+                    var list = (List<CartItem>)cart;
+                    if (list.Exists(x => x.Product.ID == id))
+                    {
+                        foreach (var item in list)
+                        {
+                            if (item.Product.ID == id)
+                            {
+                                item.Quantity += quantity;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var item = new CartItem();
+                        item.Product = product;
+                        item.Quantity = quantity;
+                        list.Add(item);
+                    }
+                    Session[CartSession] = list;
+                }
+                else
+                {
+                    //tạo mới cart item
+                    var item = new CartItem();
+                    item.Product = product;
+                    item.Quantity = quantity;
+                    var list = new List<CartItem>();
+                    list.Add(item);
+                    //gán vào session
+                    Session[CartSession] = list;
 
+                }
+                var List = new List<CartItem>();
+                List = (List<CartItem>)Session[CartSession];
+                var Qty = List.Sum(x => x.Quantity);
+                var info = new { Qty, status=true };
+                return Json(info, JsonRequestBehavior.AllowGet);
             }
-            var List = new List<CartItem>();
-            List = (List<CartItem>)Session[CartSession];
-            var Qty = List.Sum(x => x.Quantity);
-            var info = new { Qty };
-            return Json(info, JsonRequestBehavior.AllowGet);
+            
         }
         //public ActionResult AddItem(long id, int quantity)
         //{

@@ -45,12 +45,38 @@ namespace OnlineShop.Controllers
         }
         public ActionResult Index()
         {
+
             return View();
         }
-        [ChildActionOnly]
-        [OutputCache(Duration =3600 * 24)]
+
+        public ActionResult Login()
+        {
+            if (Session[SessionMember.UserSession] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        public ActionResult Logout()
+        {
+            User user = db.Users.Find(Session[SessionMember.UserSession].ToString());
+            user.LastLoginDate = DateTime.Now;
+            db.SaveChanges();
+            Session.Remove(SessionMember.UserSession);
+            return RedirectToAction("Index", "Home");
+        }
+
+        //[ChildActionOnly]
+        //[OutputCache(Duration =3600 * 24)]
         public ActionResult MainNavMenu()
         {
+            ViewBag.Username = "Đăng nhập";
+            ViewBag.Link = "/dang-nhap";
+            if (Session[SessionMember.UserSession] != null)
+            {
+                ViewBag.Username = "Xin chào, "+ Session[SessionMember.UserSession].ToString();
+            }
+            
             return PartialView(db.Menus.Where(x=>x.GroupID=="top" && x.IsLocked==true).OrderBy(x=>x.Order).ToList());
         }
         [ChildActionOnly]
@@ -100,6 +126,98 @@ namespace OnlineShop.Controllers
                 list = (List<RecentProduct>)recentProduct;
             }
             return PartialView(list);
+        }
+        [ChildActionOnly]
+        [OutputCache(Duration = 3600 * 24)]
+        public PartialViewResult Feedback()
+        {
+            var feedback = db.Feedbacks.Where(x => x.IsReaded == true).OrderBy(x => x.CreatedDate).ToList();
+            return PartialView(feedback);
+        }
+        [ChildActionOnly]
+        [OutputCache(Duration = 3600 * 24)]
+        public PartialViewResult Videos()
+        {
+            ViewBag.NewestVideo = db.Newses.Where(x => x.CategoryID == 7).OrderByDescending(x => x.PublishedDate).Take(1).ToList();
+            ViewBag.VideoNewses = db.Newses.Where(x => x.CategoryID == 7 && x.ID != 65).OrderByDescending(x => x.PublishedDate).Take(4).ToList();
+            return PartialView();
+        }
+        public User GetById(string userName)
+        {
+            return db.Users.SingleOrDefault(x => x.UserName == userName && x.GroupID == "MEMBER");
+        }
+        public int Check(string userName, string passWord)
+        {
+            var result = db.Users.SingleOrDefault(x => x.UserName == userName && x.GroupID == "MEMBER");
+            if (result == null)
+            {
+                return 0;
+            }
+            else
+            {
+                if (result.Password == passWord)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+        public int CheckUserName(string userName)
+        {
+            var result = db.Users.SingleOrDefault(x => x.UserName == userName);
+            if (result != null)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public JsonResult Log(string Username, string Password)
+        {
+            var result = Check(Username, Encryptor.MD5Hash(Password));
+            string msg = "";
+            bool status = false;
+            if (result == 1)
+            {
+                var user = GetById(Username);
+                var userSession = new MemberLogin();
+                userSession.UserID = user.UserName;
+                Session.Add(SessionMember.UserSession, userSession.UserID);
+                status = true;
+            }
+            else if (result == 0)
+            {
+                msg="Tài khoản không tồn tại hoặc không có quyền truy cập";
+            }
+            else
+            {
+                msg = "Mật khẩu không đúng";
+            }
+            return Json(new {msg=msg,status = status }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Reg(User d)
+        {
+            var check = CheckUserName(d.UserName);
+            if (check == 0)
+            {
+                User user = new User();
+                user = d;
+                user.Password = Encryptor.MD5Hash(d.Password);
+                user.GroupID = "MEMBER";
+                user.CreatedDate = DateTime.Now;
+                db.Users.Add(user);
+                db.SaveChanges();
+                return Json(new { status = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false, msg="Tên đăng nhập này đã tồn tại !" }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

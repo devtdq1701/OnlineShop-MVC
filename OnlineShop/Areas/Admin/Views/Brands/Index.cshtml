@@ -21,13 +21,44 @@
     <!-- Page level custom scripts -->
     <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
     <script type="text/javascript">
-        function remove() {
-            var $tr = $(this).closest('tr');
-            $tr.remove();
-            location.reload();
-        }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.btnDelete').each(function () {
+            var ID = $(this).data('id');
+            $(this).off('click').on('click', function () {
+                swal({
+                    title: "Bạn chắc chứ?",
+                    text: "Xoá nhãn hàng " + ID,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/Brands/Delete/',
+                                data: {
+                                    id: ID
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (res) {
+                                    if (res.status == true) {
+                                        swal("Xoá nhãn hàng thành công!", {
+                                            icon: "success",
+                                        });
+                                        var $tr = $(this).closest('tr');
+                                        $tr.remove();
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("Nhãn hàng vẫn được giữ nguyên!");
+                        }
+                    });
+            });
         });
     </script>
 }
@@ -67,34 +98,36 @@
                         <th>#</th>
                     </tr>
                 </tfoot>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="/Admin/Brands/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Title)</a>
-                        </td>
-                        <td>
-                            <img class="img-fluid img-custom" src="@Url.Content(""+item.Logo)" alt="">
-                        </td>
-                        <th>
-                            @{
-                                if (item.Status == true)
-                                {
-                                    <span class="badge badge-pill badge-success">Kích hoạt</span>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="/Admin/Brands/Details/@item.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Title)</a>
+                            </td>
+                            <td>
+                                <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem => item.Logo)" alt="">
+                            </td>
+                            <th>
+                                @{
+                                    if (item.Status == true)
+                                    {
+                                        <span class="badge badge-pill badge-success">Kích hoạt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
+                                    }
                                 }
-                                else
-                                {
-                                    <span class="badge badge-pill badge-danger">Chưa kích hoạt</span>
-                                }
-                            }
 
-                        </th>
-                        <td style="display:flex">
-                            <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Brands/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Brands/Delete/@item.ID"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                }
+                            </th>
+                            <td style="display:flex">
+                                <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Brands/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
+                                <a class="btnDelete btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-id="@item.ID"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
             </table>
         </div>

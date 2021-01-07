@@ -15,13 +15,46 @@
     <!-- Page level custom scripts -->
     <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
     <script type="text/javascript">
-        function remove() {
-            var $tr = $(this).closest('tr');
-            $tr.remove();
-            location.reload();
-        }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.btnDelete').each(function () {
+            var ID = $(this).data('id');
+            $(this).off('click').on('click', function () {
+                swal({
+                    title: "Bạn chắc chứ?",
+                    text: "Xoá menu " + ID,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/Menus/Delete/',
+                                data: {
+                                    id: ID
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (res) {
+                                    if (res.status == true) {
+                                        swal("Xoá menu thành công!", {
+                                            icon: "success",
+                                        });
+                                        //location.reload();
+
+                                        var $tr = $(this).closest('tr');
+                                        $tr.remove();
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("Menu vẫn được giữ nguyên!");
+                        }
+                    });
+            });
         });
     </script>
 }
@@ -94,7 +127,7 @@
                         </td>
                         <td style="display:flex">
                             <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Menus/Edit/@item.ID"><i class="fa fa-edit"></i></a> |
-                            <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Menus/Delete/@item.ID"><i class="fa fa-trash"></i></a>                        
+                            <a class="btnDelete btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-id="@item.ID"><i class="fa fa-trash"></i></a>                        
                         </td>
                     </tr>
                 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Model.EF;
+using OnlineShop.Common;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -53,9 +54,10 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 DateTime now = DateTime.Now;
                 menuType.CreatedDate = now;
-                menuType.CreatedBy = Session["username"].ToString();
+                menuType.CreatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.MenuTypes.Add(menuType);
                 db.SaveChanges();
+                SetAlert("Thêm loại menu thành công", "success");
                 return RedirectToAction("Index");
             }
 
@@ -89,24 +91,22 @@ namespace OnlineShop.Areas.Admin.Controllers
                 db.Entry(menuType).State = EntityState.Modified;
                 DateTime now = DateTime.Now;
                 menuType.UpdatedDate = now;
-                menuType.UpdatedBy = Session["username"].ToString();
+                menuType.UpdatedBy = Session[CommonConstants.USER_SESSION].ToString();
                 db.SaveChanges();
+                SetAlert("Sửa thành công", "success");
                 return RedirectToAction("Index");
             }
             return View(menuType);
         }
 
 
-
-        // POST: Admin/MenuTypes/Delete/5
-        [HttpDelete]
         public ActionResult Delete(string id)
         {
 
             MenuType menuType = db.MenuTypes.Find(id);
             db.MenuTypes.Remove(menuType);
             db.SaveChanges();
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

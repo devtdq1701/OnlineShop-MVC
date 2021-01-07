@@ -27,17 +27,12 @@
         public string Description { get; set; }
 
         [StringLength(250)]
-        [Display(Name = "Ảnh 1")]
+        [Display(Name = "Ảnh thumbnail")]
+        public string Thumb { get; set; }
+
+        [Display(Name ="Hình ảnh chi tiết")]
+        [Column(TypeName = "xml")]
         public string Images { get; set; }
-
-        [StringLength(250)]
-        [Display(Name = "Ảnh 2")]
-        public string Images2nd { get; set; }
-
-        [StringLength(250)]
-        [Display(Name = "Ảnh 3")]
-        public string Images3rd { get; set; }
-
 
         [Display(Name = "Giá KM")]
         public decimal? Price { get; set; }

@@ -8,7 +8,14 @@
     <title>@Model.Title</title>
 }
 @section js {
-    <script src="/Assets/Client/js/custom.js"></script>
+    @*<script src="/Assets/Client/js/custom.js"></script>*@
+    <link href="/Assets/Client/js/rating.css" rel="stylesheet" />
+    <script src="/Assets/Client/js/rating.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input.rating').rating();
+        });
+    </script>
     <script src="/Assets/Client/js/popper.js"></script>
     <script src="/Assets/Client/js/bootstrap.min.js"></script>
     <script>
@@ -30,14 +37,14 @@
         galleryThumbs.controller.control = galleryTop;
 
     </script>
-    <script>
-        $(document).ready(function () {
-            var pid = $('#qtyInput').attr('data-id');
-            var quantity = $('#qtyInput').val();
-            var link = "/them-gio-hang?id=" + pid + "&quantity=" + quantity;
-            $("#add-to-cart").attr("href", link);
-        });
-    </script>
+    @*<script>
+            $(document).ready(function () {
+                var pid = $('#qtyInput').attr('data-id');
+                var quantity = $('#qtyInput').val();
+                var link = "/them-gio-hang?id=" + pid + "&quantity=" + quantity;
+                $("#add-to-cart").attr("href", link);
+            });
+        </script>*@
     <script>
         var swiper = new Swiper('.product-container', {
             slidesPerView: 1,
@@ -67,6 +74,73 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function () {
+                $("#form-review").validate({
+                    //errorPlacement: function (error) {
+                    //    var html = '';
+                    //    if (error) {
+                    //        html = '<div class="alert-box"><div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i></div></div>';
+                          
+                    //        error.insertAfter(".alert i");
+
+                    //    }
+                    //    else {
+                    //        html = '';
+                    //    }
+                    //    $("#form-review").append(html);
+                    //},
+                    invalidHandler: function (event, validator) {
+                        // 'this' refers to the form
+                        var errors = validator.numberOfInvalids();
+                        if (errors) {
+                            $(".alert-box").hide();
+                            var message = errors == 1
+                                ? 'Bạn đã nhập lỗi 1 field. Vui lòng nhập lại field này!'
+                                : 'Bạn đã nhập lỗi ' + errors + ' fields.  Vui lòng nhập lại cho các fields này!';
+                            var html = '<div class="alert-box"><div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>' + message + '</div></div>';
+                            $("#form-review").append(html);
+                        } else {
+                            $(".alert-box").hide();
+                        }
+                    },
+                    rules: {
+                        FullName: { required: true },
+                        Review: { required: true },
+                        Email: {
+                            required: true,
+                            email: true
+                        },
+                    },
+                    messages: {
+                        FullName: { required: "Bắt buộc nhập tên" },
+                        Review: { required: "Bắt buộc nhập nội dung review" },
+                        Email: {
+                            required: "Bắt buộc nhập mail",
+                            email: "Email không hợp lệ"
+                        }
+                    },
+                    submitHandler: function () {
+                        var d = $("#form-review").serialize();
+                        $("#button-review").unbind("click").text("Đang gửi...");
+                        var url = "/Product/Review";
+                        $.post(url, d, function (res) {
+                            if (res.status == false) {
+                                var html = '<div class="alert-box"><div class="alert alert-success"><i class="fa fa-check-circle"></i> Có lỗi xảy ra trong quá trình gửi!!!.</div></div>';
+                                $("#form-review").append(html);
+                                $("#button-review").text("Lỗi");
+                            } else {
+                                $(".alert-box").hide();
+                                var html = '<div class="alert-box"><div class="alert alert-success"><i class="fa fa-check-circle"></i> Đánh giá đã được gửi đến quản trị trước khi được chấp nhận.</div></div>';
+                                $("#form-review").append(html);
+                                $("#button-review").text("Gửi đi");
+                            }
+                        }, "json");
+                    }
+                });
+
+            });
+    </script>
 }
 <div class="product-single">
     <div class="breadcrumb">
@@ -80,16 +154,9 @@
         <div class="product-detail-top__left">
             <div class="swiper-container gallery-top">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="@Model.Images" alt="" class="zoom-img"></div>
-                    @{
-                        if (Model.Images2nd != null)
-                        {
-                            <div class="swiper-slide zoom-img"><img src="@Model.Images2nd" alt="" class="zoom-img"></div>
-                        }
-                        if (Model.Images3rd != null)
-                        {
-                            <div class="swiper-slide zoom-img"><img src="@Model.Images3rd" alt="" class="zoom-img"></div>
-                        }
+                    @foreach (var item in ViewBag.Images)
+                    {
+                        <div class="swiper-slide"><img src="@item" alt="" class="zoom-img"></div>
                     }
                 </div>
                 <!-- Add Arrows -->
@@ -99,16 +166,9 @@
 
             <div class="swiper-container gallery-thumbs">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" style="background-image: url(@Model.Images);"></div>
-                    @{
-                        if (Model.Images2nd != null)
-                        {
-                            <div class="swiper-slide" style="background-image: url(@Model.Images2nd);"></div>
-                        }
-                        if (Model.Images3rd != null)
-                        {
-                            <div class="swiper-slide" style="background-image: url(@Model.Images3rd);"></div>
-                        }
+                    @foreach (var item in ViewBag.Images)
+                    {
+                        <div class="swiper-slide" style="background-image: url('@item');"></div>
                     }
                 </div>
             </div>
@@ -232,7 +292,10 @@
                         <a class="nav-link" id="char-tab" data-toggle="tab" href="#dacdiem" role="tab" aria-controls="dacdiem" aria-selected="false">Thông số kĩ thuật</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="guar-tab" data-toggle="tab" href="#baohanh" role="tab" aria-controls="baohanh" aria-selected="false">Video</a>
+                        <a class="nav-link" id="guar-tab" data-toggle="tab" href="#video" role="tab" aria-controls="video" aria-selected="false">Video</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="guar-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review sản phẩm</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -241,8 +304,98 @@
                             @Html.Raw(Model.Detail)
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="dacdiem" role="tabpanel" aria-labelledby="char-tab">...</div>
-                    <div class="tab-pane fade" id="baohanh" role="tabpanel" aria-labelledby="guar-tab">...</div>
+                    <div class="tab-pane fade" id="dacdiem" role="tabpanel" aria-labelledby="char-tab">
+                        @if (Model.Specification != null)
+                        {
+                            <div class="content-specification" style="">
+                                @Html.Raw(Model.Specification)
+                            </div>
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="video" role="tabpanel" aria-labelledby="guar-tab">
+                        @if (Model.Video != null)
+                        {
+                            <div class="content-video"><p><iframe frameborder="0" src="@Model.Video" width="640" height="360" class="note-video-clip"></iframe><br></p></div>
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="guar-tab">
+                        <div class="content-review" style="">
+                            <div class="review-form-info">
+                                <div class="review-info">
+                                    <div class="title">Đánh giá và nhận xét</div>
+                                    <div class="rating">
+                                        <div class="star-progress-bar">
+                                            <div class="stars"><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i></div>
+                                            <div class="progress-bar">
+                                                <div class="progress progress-5" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="number">0</div>
+                                        </div>
+                                        <div class="star-progress-bar">
+                                            <div class="stars"><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i></div>
+                                            <div class="progress-bar">
+                                                <div class="progress progress-4" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="number">0</div>
+                                        </div>
+                                        <div class="star-progress-bar">
+                                            <div class="stars"><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i></div>
+                                            <div class="progress-bar">
+                                                <div class="progress progress-3" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="number">0</div>
+                                        </div>
+                                        <div class="star-progress-bar">
+                                            <div class="stars"><i class="fas fa-star"></i> <i class="fas fa-star"></i></div>
+                                            <div class="progress-bar">
+                                                <div class="progress progress-2" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="number">0</div>
+                                        </div>
+                                        <div class="star-progress-bar">
+                                            <div class="stars"><i class="fas fa-star"></i></div>
+                                            <div class="progress-bar">
+                                                <div class="progress progress-1" style="width: 0%;"></div>
+                                            </div>
+                                            <div class="number">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-form">
+                                    <form id="form-review">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label for="Email" class="control-label">Email</label>
+                                                <input type="text" name="Email" id="Email" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="FullName" class="control-label">
+                                                    Họ và tên
+                                                </label> <input type="text" name="FullName" id="FullName" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-inline">
+                                            <label for="Stars" class="control-label" style="margin-bottom: 0px;">Đánh giá </label>
+                                            <div class="rating-container pc">
+                                                <input class="rating" name="Stars" id="Stars">
+                                            </div>
+                                        </div>
+                                        <div class="form-block required">
+                                            <label for="Review" class="control-label">Nội dung (bắt buộc)</label>
+                                            <textarea name="Review" rows="5" id="Review"></textarea>
+                                        </div>
+                                        <input type="hidden" name="ProductID" id="ProductID" value="@Model.ID">
+                                        <div class="buttons"><button id="button-review" data-loading-text="Đang tải...">Gửi review</button></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="reviews">
+                                <div id="review">
+                                    <p>Không có đánh giá cho sản phẩm này.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,7 +426,7 @@
                                     }
                                     <div class="@myClass"><span>@(item.PercentSale.Value)%</span></div>
                                     <div class="product__thumb">
-                                        <a class="product__link" href="@url"><img src="@item.Images" alt=""></a>
+                                        <a class="product__link" href="@url"><img src="@item.Thumb" alt=""></a>
                                     </div>
                                     <div class="product__bottom">
                                         <div class="product__title">

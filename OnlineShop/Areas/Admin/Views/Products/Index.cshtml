@@ -17,39 +17,70 @@
     <script src="~/Assets/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Assets/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
-    <script src="~/Assets/Admin/js/demo/datatables-demo.js"></script>
+    <script src="/Assets/Admin/js/demo/datatables-demo.js"></script>
     <script type="text/javascript">
-        function remove() {
-            var $tr = $(this).closest('tr');
-            $tr.remove();
-            location.reload();
-        }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        //$('#SearchBtn').off('click').on('click', function () {
-        //    $.ajax({
-        //        type: "get",
-        //        url: "/Admin/Products/GetSearch",
-        //        contentType: "html",
-        //        success: function (res) {
-        //            if (res.length == 0) {
-        //                SearchData.append('<tr><td colspan="7">Không tìm thấy sản phẩm!</td></tr>');
-        //            }
-        //            else {
-        //                $.each(res, function (index, value) {
-        //                    $('#ProductName').append('<a href="/Admin/Products/Details/' + value.Product.ID + '" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">' + value.Product.Title + '</a>');
-        //                    $('#ProductImage').append('<img class="img-fluid img-custom" src="' + value.Product.Images + '" alt="">');
-        //                    $('#ProductPrice').append(value.Product.Price);
-        //                    $('#ProductQuantity').append(value.Product.Quantity);
-        //                    $('#ProductTitle').append(value.category.Title);
-        //                    $('#ProductView').append(value.Product.ViewCount);
-        //                    //$('#action').append('<a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Products/Edit/'+value.Product.ID+'"><i class="fa fa-edit"></i></a> |'+'<a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Products/Delete/'+value.Product.ID'+'"><i class="fa fa-trash"></i></a>');
-        //                });
-        //            }
-        //        }
-        //    })
-        //});
+            //$('#SearchBtn').off('click').on('click', function () {
+            //    $.ajax({
+            //        type: "get",
+            //        url: "/Admin/Products/GetSearch",
+            //        contentType: "html",
+            //        success: function (res) {
+            //            if (res.length == 0) {
+            //                SearchData.append('<tr><td colspan="7">Không tìm thấy sản phẩm!</td></tr>');
+            //            }
+            //            else {
+            //                $.each(res, function (index, value) {
+            //                    $('#ProductName').append('<a href="/Admin/Products/Details/' + value.Product.ID + '" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">' + value.Product.Title + '</a>');
+            //                    $('#ProductImage').append('<img class="img-fluid img-custom" src="' + value.Product.Images + '" alt="">');
+            //                    $('#ProductPrice').append(value.Product.Price);
+            //                    $('#ProductQuantity').append(value.Product.Quantity);
+            //                    $('#ProductTitle').append(value.category.Title);
+            //                    $('#ProductView').append(value.Product.ViewCount);
+            //                    //$('#action').append('<a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Products/Edit/'+value.Product.ID+'"><i class="fa fa-edit"></i></a> |'+'<a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Products/Delete/'+value.Product.ID'+'"><i class="fa fa-trash"></i></a>');
+            //                });
+            //            }
+            //        }
+            //    })
+            //});
+        $('.btnDelete').each(function () {
+            var ID = $(this).data('id');
+            $(this).off('click').on('click', function () {
+                swal({
+                    title: "Bạn chắc chứ?",
+                    text: "Xoá sản phẩm " + ID,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/Products/Delete/',
+                                data: {
+                                    id: ID
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (res) {
+                                    if (res.status == true) {
+                                        swal("Xoá sản phẩm thành công!", {
+                                            icon: "success",
+                                        });
+                                        var $tr = $(this).closest('tr');
+                                        $tr.remove();
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("Sản phẩm vẫn được giữ nguyên!");
+                        }
+                    });
+            });
+        });
     </script>
 
 }
@@ -100,7 +131,7 @@
                             @Html.DisplayNameFor(model => model.Product.Title)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Product.Images)
+                            @Html.DisplayNameFor(model => model.Product.Thumb)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Product.Price)
@@ -148,7 +179,7 @@
                                 <a href="/Admin/Products/Details/@item.Product.ID" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">@Html.DisplayFor(modelItem => item.Product.Title)</a>
                             </td>
                             <td id="ProductImage">
-                                <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem =>item.Product.Images)" alt="">
+                                <img class="img-fluid img-custom" src="@Html.DisplayFor(modelItem =>item.Product.Thumb)" alt="">
                             </td>
                             <td id="ProductPrice">
                                 @Html.DisplayFor(modelItem => item.Product.Price)
@@ -159,14 +190,14 @@
                             <td id="ProductTitle">
                                 @Html.DisplayFor(modelItem => item.category.Title)
                             </td>
-                            <td id="ProductView"> 
+                            <td id="ProductView">
                                 @Html.DisplayFor(modelItem => item.Product.ViewCount)
                             </td>
-                            <td style="display:flex" id="action">
+                            <td style="display:flex">
                                 @*@Html.ActionLink("Sửa", "Edit", new { id = item.Product.ID }, new { @class = "btn btn-primary btn-icon-split btn-padding" }) |
-                    @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Product.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
+                                    @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Product.ID }, new AjaxOptions { Confirm = "Bạn có muốn xoá bản ghi này ?", OnComplete = "remove", HttpMethod = "Delete" }, new { @class = "btn btn-danger btn-icon-split btn-padding" })*@
                                 <a class="btn btn-success btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Sửa" href="/Admin/Products/Edit/@item.Product.ID"><i class="fa fa-edit"></i></a> |
-                                <a class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-ajax="true" data-ajax-complete="remove" data-ajax-confirm="Bạn có muốn xoá bản ghi này ?" data-ajax-method="Delete" href="/Admin/Products/Delete/@item.Product.ID"><i class="fa fa-trash"></i></a>
+                                <a class="btnDelete btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Xoá" data-id="@item.Product.ID"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     }

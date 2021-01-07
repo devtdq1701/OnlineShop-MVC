@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace OnlineShop.Controllers
 {
@@ -27,6 +28,23 @@ namespace OnlineShop.Controllers
             // Tăng số lần xem
             model.ViewCount++;
             db.SaveChanges();
+
+            var images = model.Images;
+            XElement xImages;
+            List<string> listImagesReturn = new List<string>();
+            if (images == null)
+            {
+                listImagesReturn = null;
+            }
+            else
+            {
+                xImages = XElement.Parse(images);
+                foreach (XElement element in xImages.Elements())
+                {
+                    listImagesReturn.Add(element.Value);
+                }
+            }
+            ViewBag.Images = listImagesReturn;
             var RecentProduct = Session["RecentProductList"];
             if (RecentProduct != null)
             {
@@ -74,6 +92,7 @@ namespace OnlineShop.Controllers
         }
         public ActionResult Search(string sortOrder,string keyword,long category_id, int? page = 1)
         {
+            keyword = ConvertToUnSign.ToUnSign(keyword);
             var products = from s in db.Products
                            select s;
             int pageSize = 12;
@@ -88,12 +107,25 @@ namespace OnlineShop.Controllers
             }
             if(category_id==0)
             {
-                products = db.Products.Where(x => x.Title.Contains(keyword));
+
+                products = db.Products.Where(delegate (Product p)
+                {
+                    if (ConvertToUnSign.ToUnSign(p.Title).IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                        return true;
+                    else
+                        return false;
+                }).AsQueryable();
                 ViewBag.totalRecord = products.Count();
             }
             else
             {
-                products = db.Products.Where(x => x.CategoryID==category_id && x.Title.Contains(keyword));
+                products = db.Products.Where(delegate (Product p)
+                {
+                    if (ConvertToUnSign.ToUnSign(p.Title).IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) >= 0 && p.CategoryID==category_id)
+                        return true;
+                    else
+                        return false;
+                }).AsQueryable();
                 ViewBag.totalRecord = products.Count();
             }
             switch (sortOrder)
@@ -124,6 +156,21 @@ namespace OnlineShop.Controllers
                     break;
             }
             return View(products.ToPagedList(pageNumber, pageSize));
+        }
+        public JsonResult Review(Comment d)
+        {
+            Comment comment = new Comment();
+            comment.FullName = d.FullName;
+            comment.Email = d.Email;
+            comment.ProductID = d.ProductID;
+            comment.Review = d.Review;
+            comment.Stars = d.Stars;
+            DateTime now = DateTime.Now;
+            comment.SentDate = now;
+            comment.Approved = false;
+            db.Comments.Add(comment);
+            db.SaveChanges();
+            return Json(new { status = true });
         }
     }
 }

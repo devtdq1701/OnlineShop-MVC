@@ -97,15 +97,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(slide);
         }
 
-        [HttpDelete]
         public ActionResult Delete(int id)
         {
 
             Slide slide = db.Slides.Find(id);
             db.Slides.Remove(slide);
             db.SaveChanges();
-            SetAlert("Xoá slide thành công", "success");
-            return Json(new { Success = true });
+            return Json(new { status = true });
         }
 
         protected override void Dispose(bool disposing)

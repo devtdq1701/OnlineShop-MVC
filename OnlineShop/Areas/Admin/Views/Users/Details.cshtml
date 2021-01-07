@@ -34,7 +34,18 @@
         </tr>
         <tr>
             <th scope="row"> @Html.DisplayNameFor(model => model.Sex)</th>
-            <td> @Html.DisplayFor(model => model.Sex)</td>
+            <td>
+                @{
+                    if (Model.Sex == true)
+                    {
+                        <span>Nam</span>
+                    }
+                    else
+                    {
+                        <span>Nữ</span>
+                    }
+                }
+            </td>
         </tr>
         <tr>
             <th scope="row"> Loại user</th>

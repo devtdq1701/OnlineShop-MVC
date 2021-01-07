@@ -9,5 +9,6 @@ namespace OnlineShop.Common
     {
         public static string CartSession = "CartSession";
         public static string RecentProduct = "RecentProductList";
+        public static string UserSession = "UserSession";
     }
 }
